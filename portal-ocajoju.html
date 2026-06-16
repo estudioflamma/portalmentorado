@@ -1,0 +1,2328 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portal — @ocajoju · Estúdio Flamma</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Arimo:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Space+Mono:wght@400;700&display=swap');
+
+  :root {
+    --white:    #FFFFFF;
+    --bg:       #F5F5F7;
+    --bg2:      #EBEBF0;
+    --border:   rgba(0,0,0,0.07);
+    --text:     #1D1D1F;
+    --text2:    #6E6E73;
+    --text3:    #AEAEB2;
+    --rosa:     #F99BE7;
+    --rosa-bg:  rgba(249,155,231,0.12);
+    --rosa-bdr: rgba(249,155,231,0.35);
+    --shadow-s: 0 1px 3px rgba(0,0,0,0.06), 0 2px 8px rgba(0,0,0,0.04);
+    --shadow-m: 0 2px 8px rgba(0,0,0,0.06), 0 8px 24px rgba(0,0,0,0.06);
+    --r-s: 12px;
+    --r-m: 20px;
+    --r-l: 28px;
+  }
+
+  *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Arimo', sans-serif;
+    font-size: 15px;
+    line-height: 1.5;
+  }
+
+  /* ─── CARD ─── */
+  .card {
+    background: var(--white);
+    border-radius: var(--r-m);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-s);
+  }
+  .card:hover { box-shadow: var(--shadow-m); transition: box-shadow 0.25s ease; }
+
+  /* ─── PILL ─── */
+  .pill {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: rgba(0,0,0,0.05);
+    border-radius: 40px;
+    padding: 5px 14px;
+    font-size: 12px; font-weight: 500;
+    color: var(--text2); letter-spacing: 0.01em;
+  }
+  .pill.pink { background: var(--rosa-bg); color: var(--text); border: 1px solid var(--rosa-bdr); }
+  .pill.dark { background: var(--text); color: var(--white); }
+  .pill.outline { background: transparent; border: 1px solid var(--border); }
+
+  /* ─── BUTTON ─── */
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 11px 22px; border-radius: 40px;
+    font-family: 'Arimo', sans-serif; font-size: 14px; font-weight: 500;
+    cursor: pointer; border: none; text-decoration: none;
+    transition: transform 0.15s, opacity 0.15s, box-shadow 0.15s;
+    white-space: nowrap;
+  }
+  .btn:hover { transform: scale(0.97); }
+  .btn.btn-dark { background: var(--text); color: var(--white); }
+  .btn.btn-dark:hover { opacity: 0.85; }
+  .btn.btn-outline { background: var(--white); color: var(--text); border: 1px solid var(--border); box-shadow: var(--shadow-s); }
+  .btn.btn-outline:hover { box-shadow: var(--shadow-m); }
+  .btn.btn-pink { background: var(--rosa); color: var(--text); }
+
+  /* ─── PROGRESS BAR ─── */
+  .prog-track { height: 6px; background: var(--bg2); border-radius: 3px; overflow: hidden; }
+  .prog-fill { height: 100%; background: var(--rosa); border-radius: 3px; transition: width 1s ease; }
+
+  /* ─── MONO TAG ─── */
+  .mono { font-family: 'Space Mono', monospace; }
+  .label {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--text3);
+  }
+
+  /* ──────────────────────────────
+     NAV
+  ────────────────────────────── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(245,245,247,0.85);
+    backdrop-filter: saturate(180%) blur(20px);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+    border-bottom: 1px solid var(--border);
+    height: 52px;
+    display: flex; align-items: center;
+    padding: 0 32px;
+    gap: 8px;
+  }
+  .nav-logo {
+    font-family: 'Arimo', sans-serif;
+    font-size: 14px; font-weight: 600;
+    color: var(--text); margin-right: 16px;
+    letter-spacing: -0.01em;
+  }
+  .nav-links { display: flex; gap: 4px; list-style: none; flex: 1; }
+  .nav-links a {
+    font-family: 'Arimo', sans-serif;
+    font-size: 13px; font-weight: 400;
+    color: var(--text2); text-decoration: none;
+    padding: 5px 14px; border-radius: 20px;
+    transition: background 0.2s, color 0.2s;
+  }
+  .nav-links a:hover { background: rgba(0,0,0,0.05); color: var(--text); }
+  .nav-right { margin-left: auto; }
+
+  /* ──────────────────────────────
+     HERO
+  ────────────────────────────── */
+  .hero {
+    padding: 88px 32px 40px;
+    display: grid;
+    grid-template-columns: 1fr 360px;
+    gap: 24px;
+    max-width: 1100px; margin: 0 auto;
+  }
+  .hero-left {
+    display: flex; flex-direction: column;
+    justify-content: center; gap: 20px;
+    padding: 20px 0;
+  }
+  .hero-eyebrow { display: flex; align-items: center; gap: 8px; }
+  .hero-title {
+    font-family: 'Arimo', sans-serif;
+    font-size: clamp(32px, 4vw, 52px);
+    font-weight: 400;
+    color: var(--text);
+    line-height: 1.08;
+    letter-spacing: -0.03em;
+  }
+  .hero-portal-tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--text3);
+    margin-bottom: 2px;
+  }
+  .hero-tagline {
+    font-size: 17px; font-weight: 500;
+    color: var(--text); letter-spacing: -0.01em;
+    line-height: 1.4;
+  }
+  .hero-sub {
+    font-size: 16px; font-weight: 400;
+    color: var(--text2); line-height: 1.65;
+    max-width: 420px;
+  }
+  .hero-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 4px; }
+
+  /* Hero card (right) */
+  .hero-card {
+    background: var(--white);
+    border-radius: var(--r-l);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-m);
+    padding: 28px;
+    display: flex; flex-direction: column; gap: 20px;
+  }
+  .hero-photo {
+    width: 100%; aspect-ratio: 1;
+    border-radius: var(--r-m);
+    overflow: hidden; flex: 1;
+    background: var(--bg);
+  }
+  .hero-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .hero-photo-placeholder {
+    width: 100%; height: 100%;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 10px; color: var(--text3);
+    border: 2px dashed var(--bg2); border-radius: var(--r-m);
+  }
+  .hero-photo-icon { font-size: 28px; opacity: 0.6; }
+  .hero-photo-label { font-family: 'Space Mono', monospace; font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; }
+  .hero-card-bottom { display: flex; flex-direction: column; gap: 6px; }
+  .hero-name { font-size: 16px; font-weight: 600; color: var(--text); letter-spacing: -0.01em; }
+  .hero-handle { font-family: 'Space Mono', monospace; font-size: 11px; color: var(--text3); }
+
+  /* ──────────────────────────────
+     SECTION WRAPPER
+  ────────────────────────────── */
+  .section { padding: 16px 32px; max-width: 1100px; margin: 0 auto; }
+  .section-gap { margin-bottom: 12px; }
+
+  /* Section header */
+  .sec-header {
+    display: flex; align-items: baseline; justify-content: space-between;
+    margin-bottom: 16px;
+  }
+  .sec-title {
+    font-size: 22px; font-weight: 600;
+    color: var(--text); letter-spacing: -0.02em;
+  }
+  .sec-link {
+    font-size: 13px; color: var(--rosa); text-decoration: none; font-weight: 500;
+    transition: opacity 0.2s;
+  }
+  .sec-link:hover { opacity: 0.7; }
+
+  /* ──────────────────────────────
+     PROGRESS SECTION
+  ────────────────────────────── */
+  .progress-card {
+    background: var(--white);
+    border-radius: var(--r-l);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-s);
+    padding: 28px 32px;
+    display: grid; grid-template-columns: 1fr auto;
+    gap: 32px; align-items: center;
+  }
+  .prog-label { font-size: 13px; color: var(--text2); margin-bottom: 10px; }
+  .prog-numbers { font-size: 36px; font-weight: 400; color: var(--text); letter-spacing: -0.03em; margin-bottom: 14px; }
+  .prog-numbers span { color: var(--text3); font-size: 20px; }
+  .prog-sub { font-size: 12px; color: var(--text3); margin-top: 8px; }
+
+  /* Ring progress (CSS only) */
+  .ring-wrap { position: relative; width: 88px; height: 88px; flex-shrink: 0; }
+  .ring-wrap svg { transform: rotate(-90deg); }
+  .ring-bg { fill: none; stroke: var(--bg2); stroke-width: 8; }
+  .ring-fill { fill: none; stroke: var(--rosa); stroke-width: 8; stroke-linecap: round; stroke-dasharray: 220; stroke-dashoffset: 88; /* 220 * (1 - 0.60) */ transition: stroke-dashoffset 1s ease; }
+  .ring-text { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; flex-direction: column; }
+  .ring-pct { font-size: 18px; font-weight: 600; color: var(--text); letter-spacing: -0.02em; }
+  .ring-desc { font-size: 9px; color: var(--text3); }
+
+  /* ──────────────────────────────
+     TIMELINE STEPPER
+  ────────────────────────────── */
+  .timeline-card {
+    background: var(--white);
+    border-radius: var(--r-l);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-s);
+    padding: 28px 32px;
+  }
+  .stepper { display: flex; align-items: flex-start; overflow-x: auto; padding-bottom: 4px; gap: 0; }
+  .step { flex: 1; min-width: 90px; display: flex; flex-direction: column; align-items: center; position: relative; }
+  .step-connector {
+    position: absolute; top: 13px; left: calc(50% + 13px);
+    right: calc(-50% + 13px); height: 2px;
+    background: var(--bg2); z-index: 0;
+  }
+  .step:last-child .step-connector { display: none; }
+  .step-connector.done { background: var(--rosa-bg); }
+  .step-dot {
+    width: 26px; height: 26px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    position: relative; z-index: 1; margin-bottom: 10px;
+    font-size: 11px; font-weight: 600;
+    background: var(--bg); border: 2px solid var(--bg2);
+    color: var(--text3);
+    transition: all 0.2s;
+  }
+  .step-dot.done { background: var(--rosa-bg); border-color: var(--rosa-bdr); color: var(--text2); }
+  .step-dot.done::after { content: '✓'; font-size: 10px; color: var(--text2); }
+  .step-dot.done span { display: none; }
+  .step-dot.active {
+    background: var(--rosa); border-color: var(--rosa);
+    color: var(--text); box-shadow: 0 0 0 4px var(--rosa-bg);
+  }
+  .step-num { font-family: 'Space Mono', monospace; font-size: 8px; letter-spacing: 0.04em; color: var(--text3); margin-bottom: 4px; text-align: center; }
+  .step-label { font-size: 10px; color: var(--text3); text-align: center; line-height: 1.4; font-weight: 400; }
+  .step-label.active { color: var(--text); font-weight: 600; }
+
+  /* ──────────────────────────────
+     INSIGHTS BENTO GRID
+  ────────────────────────────── */
+  .bento { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .bento-card {
+    background: var(--white);
+    border-radius: var(--r-m);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-s);
+    padding: 28px;
+    transition: transform 0.2s, box-shadow 0.2s;
+    cursor: default;
+  }
+  .bento-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-m); }
+  .bento-card.span2 { grid-column: span 2; }
+  .bento-card.pink-bg { background: var(--rosa-bg); border-color: var(--rosa-bdr); }
+  .ins-cat {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--text3); margin-bottom: 16px;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .ins-cat::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--rosa); flex-shrink: 0; }
+  .bento-card.pink-bg .ins-cat { color: var(--text2); }
+  .ins-q {
+    font-family: 'Arimo', sans-serif;
+    font-size: 18px; font-weight: 500;
+    color: var(--text); line-height: 1.35; letter-spacing: -0.02em;
+  }
+  .bento-card.span2 .ins-q { font-size: 22px; }
+
+  /* ──────────────────────────────
+     ESTRATÉGIA VS IV
+  ────────────────────────────── */
+  .vs-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .vs-card2 {
+    background: var(--white);
+    border-radius: var(--r-m); border: 1px solid var(--border);
+    box-shadow: var(--shadow-s); padding: 28px;
+  }
+  .vs-card2-title {
+    font-size: 16px; font-weight: 600; color: var(--text);
+    margin-bottom: 20px; letter-spacing: -0.01em;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .vs-badge {
+    font-family: 'Space Mono', monospace;
+    font-size: 8px; letter-spacing: 0.08em;
+    text-transform: uppercase; padding: 3px 8px;
+    border-radius: 20px; background: var(--rosa-bg);
+    color: var(--text2); border: 1px solid var(--rosa-bdr);
+  }
+  .vs-list { display: flex; flex-direction: column; gap: 10px; }
+  .vs-item {
+    display: flex; align-items: flex-start; gap: 10px;
+    padding: 10px 14px; border-radius: 10px;
+    background: var(--bg); transition: background 0.2s;
+  }
+  .vs-item:hover { background: var(--bg2); }
+  .vs-item-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--rosa); margin-top: 5px; flex-shrink: 0; }
+  .vs-item-text { font-size: 13px; color: var(--text2); line-height: 1.5; }
+
+  /* ──────────────────────────────
+     CICLOS
+  ────────────────────────────── */
+  .ciclos-grid2 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .ciclo2 {
+    background: var(--white);
+    border-radius: var(--r-m); border: 1px solid var(--border);
+    box-shadow: var(--shadow-s); padding: 28px;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .ciclo2:hover { transform: translateY(-2px); box-shadow: var(--shadow-m); background: var(--rosa-bg); border-color: var(--rosa-bdr); }
+  .ciclo2-num {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px; color: var(--text3); margin-bottom: 16px;
+  }
+  .ciclo2-title {
+    font-size: 16px; font-weight: 600; color: var(--text);
+    margin-bottom: 18px; letter-spacing: -0.02em; line-height: 1.25;
+  }
+  .ciclo2-list { display: flex; flex-direction: column; gap: 7px; }
+  .ciclo2-item {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 12px; color: var(--text2);
+  }
+  .ciclo2-item::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: var(--rosa); flex-shrink: 0; }
+
+  /* ──────────────────────────────
+     IMAGEM PESSOAL
+  ────────────────────────────── */
+  .pessoal2 { display: flex; flex-direction: column; gap: 8px; }
+  .p2-row {
+    background: var(--white);
+    border-radius: var(--r-m); border: 1px solid var(--border);
+    box-shadow: var(--shadow-s);
+    display: grid; grid-template-columns: 48px 1fr 160px;
+    gap: 20px; align-items: center;
+    padding: 20px 24px;
+    transition: transform 0.2s, box-shadow 0.2s;
+    cursor: default;
+  }
+  .p2-row:hover { transform: translateY(-1px); box-shadow: var(--shadow-m); }
+  .p2-idx {
+    width: 40px; height: 40px; border-radius: 50%;
+    background: var(--bg); border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px; color: var(--text3);
+  }
+  .p2-idx.active { background: var(--rosa-bg); border-color: var(--rosa-bdr); color: var(--text); }
+  .p2-title { font-size: 15px; font-weight: 600; color: var(--text); margin-bottom: 3px; letter-spacing: -0.01em; }
+  .p2-text { font-size: 12px; color: var(--text2); line-height: 1.5; }
+  .p2-photo {
+    width: 100%; aspect-ratio: 3/2;
+    background: var(--bg); border-radius: 10px;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 6px; color: var(--text3);
+    border: 1.5px dashed var(--bg2);
+    overflow: hidden;
+  }
+  .p2-photo img { width: 100%; height: 100%; object-fit: cover; display: block; border-radius: 10px; }
+  .p2-photo span { font-size: 16px; opacity: 0.5; }
+  .p2-photo small { font-family: 'Space Mono', monospace; font-size: 7px; letter-spacing: 0.08em; text-transform: uppercase; }
+
+  /* ──────────────────────────────
+     LINKS
+  ────────────────────────────── */
+  .links2 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  @media (min-width: 960px) { .links2 { grid-template-columns: repeat(5, 1fr); } }
+  .link2 {
+    background: var(--white);
+    border-radius: var(--r-m); border: 1px solid var(--border);
+    box-shadow: var(--shadow-s);
+    padding: 20px 22px;
+    text-decoration: none; display: flex; align-items: center; gap: 14px;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .link2:hover { transform: translateY(-2px); box-shadow: var(--shadow-m); }
+  .link2-icon {
+    width: 44px; height: 44px; border-radius: 12px;
+    background: var(--bg); border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px; flex-shrink: 0;
+  }
+  .link2-name { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 2px; letter-spacing: -0.01em; }
+  .link2-desc { font-size: 11px; color: var(--text3); line-height: 1.4; }
+
+  /* ──────────────────────────────
+     TEMPLATES
+  ────────────────────────────── */
+  .tpls { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .tpl2 {
+    background: var(--white);
+    border-radius: var(--r-m); border: 1px solid var(--border);
+    box-shadow: var(--shadow-s); padding: 24px;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .tpl2:hover { transform: translateY(-2px); box-shadow: var(--shadow-m); }
+  .tpl2-tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--text3); margin-bottom: 10px;
+  }
+  .tpl2-title { font-size: 15px; font-weight: 600; color: var(--text); margin-bottom: 8px; letter-spacing: -0.01em; }
+  .tpl2-desc { font-size: 12px; color: var(--text2); line-height: 1.55; margin-bottom: 16px; }
+  .tpl2-btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-family: 'Arimo', sans-serif;
+    font-size: 12px; font-weight: 500;
+    color: var(--text); text-decoration: none;
+    background: var(--bg); border-radius: 20px; padding: 7px 14px;
+    border: 1px solid var(--border);
+    transition: background 0.15s;
+  }
+  .tpl2-btn:hover { background: var(--bg2); }
+
+  /* ──────────────────────────────
+     FOOTER
+  ────────────────────────────── */
+  .footer-bar {
+    max-width: 1100px; margin: 0 auto;
+    padding: 32px 32px 40px;
+    display: flex; align-items: center; justify-content: space-between;
+    border-top: 1px solid var(--border);
+    margin-top: 16px;
+  }
+  .footer-logo { font-size: 14px; font-weight: 600; color: var(--text); letter-spacing: -0.01em; }
+  .footer-copy { font-family: 'Space Mono', monospace; font-size: 10px; color: var(--text3); letter-spacing: 0.04em; }
+
+  /* ──────────────────────────────
+     FRASE-GUIA
+  ────────────────────────────── */
+  .frase-guia {
+    max-width: 1100px; margin: 0 auto;
+    padding: 4px 32px 20px;
+  }
+  .frase-guia-card {
+    background: var(--white);
+    border-radius: var(--r-l);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-s);
+    padding: 36px 44px 36px 56px;
+    position: relative; overflow: hidden;
+  }
+  .frase-guia-card::before {
+    content: '"';
+    font-family: Georgia, serif;
+    font-size: 120px; line-height: 1;
+    color: var(--rosa); opacity: 0.3;
+    position: absolute; top: 4px; left: 24px;
+    pointer-events: none;
+  }
+  .frase-guia-text {
+    font-family: 'Arimo', sans-serif;
+    font-size: clamp(17px, 2vw, 22px);
+    font-weight: 400; color: var(--text);
+    line-height: 1.45; letter-spacing: -0.02em;
+    position: relative; z-index: 1;
+  }
+  .frase-guia-text p + p { margin-top: 2px; }
+
+  /* ──────────────────────────────
+     WHY SECTION (Simon Sinek)
+  ────────────────────────────── */
+  .why-card {
+    background: var(--text);
+    border-radius: var(--r-l);
+    padding: 44px 48px;
+  }
+  .why-label { color: rgba(255,255,255,0.3) !important; margin-bottom: 20px; }
+  .why-headline {
+    font-family: 'Arimo', sans-serif;
+    font-size: clamp(20px, 2.5vw, 28px);
+    font-weight: 400; color: var(--white);
+    letter-spacing: -0.02em; line-height: 1.3;
+    margin-bottom: 16px;
+  }
+  .why-body {
+    font-size: 14px; color: rgba(255,255,255,0.55);
+    line-height: 1.7; max-width: 640px;
+  }
+  .why-body strong { color: rgba(255,255,255,0.8); font-weight: 500; }
+
+  /* ──────────────────────────────
+     CHECKLIST
+  ────────────────────────────── */
+  .checklist { display: flex; flex-direction: column; gap: 8px; }
+  .check-item {
+    background: var(--white); border-radius: var(--r-m);
+    border: 1px solid var(--border); box-shadow: var(--shadow-s);
+    padding: 16px 20px;
+    display: flex; align-items: center; gap: 14px;
+    cursor: pointer; user-select: none;
+    transition: transform 0.15s, box-shadow 0.15s, opacity 0.2s;
+  }
+  .check-item:hover { box-shadow: var(--shadow-m); transform: translateY(-1px); }
+  .check-item.done { opacity: 0.5; }
+  .check-box {
+    width: 22px; height: 22px; border-radius: 6px; flex-shrink: 0;
+    border: 2px solid var(--border); display: flex; align-items: center; justify-content: center;
+    font-size: 12px; transition: all 0.18s;
+  }
+  .check-item.done .check-box { background: var(--rosa); border-color: var(--rosa); }
+  .check-item.done .check-box::after { content: '✓'; color: var(--text); font-weight: 700; font-size: 11px; }
+  .check-text { font-size: 14px; color: var(--text); line-height: 1.5; flex: 1; }
+  .check-item.done .check-text { text-decoration: line-through; color: var(--text3); }
+  .check-link {
+    font-family: 'Space Mono', monospace; font-size: 9px;
+    letter-spacing: 0.06em; text-transform: uppercase;
+    color: var(--rosa); text-decoration: none; flex-shrink: 0;
+    opacity: 0; transition: opacity 0.15s;
+  }
+  .check-item:hover .check-link { opacity: 1; }
+
+  /* ──────────────────────────────
+     LOCKED PAGE
+  ────────────────────────────── */
+  .locked-pg {
+    max-width: 560px; margin: 0 auto;
+    padding: 120px 32px 40px;
+    display: flex; flex-direction: column; align-items: center; text-align: center; gap: 20px;
+  }
+  .locked-icon { font-size: 40px; opacity: 0.25; }
+  .locked-title { font-size: 28px; font-weight: 400; color: var(--text); letter-spacing: -0.02em; }
+  .locked-sub { font-size: 14px; color: var(--text3); line-height: 1.65; }
+
+  /* ──────────────────────────────
+     NAV PAGE BUTTONS
+  ────────────────────────────── */
+  .nav-pages { display: flex; gap: 3px; flex: 1; overflow-x: auto; scrollbar-width: none; }
+  .nav-pages::-webkit-scrollbar { display: none; }
+  .nav-page-btn {
+    font-family: 'Arimo', sans-serif;
+    font-size: 12px; font-weight: 500;
+    color: var(--text2); background: transparent; border: none;
+    padding: 5px 13px; border-radius: 20px;
+    cursor: pointer; white-space: nowrap;
+    transition: background 0.18s, color 0.18s;
+  }
+  .nav-page-btn:hover:not(:disabled) { background: rgba(0,0,0,0.06); color: var(--text); }
+  .nav-page-btn.active { background: var(--text); color: var(--white); }
+  .nav-page-btn:disabled { opacity: 0.28; cursor: default; }
+
+  /* ──────────────────────────────
+     CLASS PAGES
+  ────────────────────────────── */
+  .class-page { display: none; }
+  .class-pg-top {
+    padding: 88px 32px 32px;
+    max-width: 1100px; margin: 0 auto;
+  }
+  .class-pg-meta {
+    display: flex; align-items: center; gap: 10px; margin-bottom: 20px;
+  }
+  .class-pg-title {
+    font-family: 'Arimo', sans-serif;
+    font-size: clamp(28px, 3.5vw, 48px);
+    font-weight: 400; color: var(--text);
+    line-height: 1.08; letter-spacing: -0.03em;
+    margin-bottom: 24px;
+  }
+  .class-pg-frase {
+    background: var(--white);
+    border-radius: var(--r-l); border: 1px solid var(--border);
+    box-shadow: var(--shadow-s);
+    padding: 28px 36px 28px 48px;
+    position: relative; overflow: hidden;
+    margin-bottom: 4px;
+  }
+  .class-pg-frase::before {
+    content: '"'; font-family: Georgia, serif;
+    font-size: 96px; line-height: 1; color: var(--rosa); opacity: 0.25;
+    position: absolute; top: 2px; left: 18px; pointer-events: none;
+  }
+  .class-pg-frase p {
+    font-size: clamp(15px, 1.8vw, 19px); font-weight: 400;
+    color: var(--text); line-height: 1.45; letter-spacing: -0.015em;
+    position: relative; z-index: 1;
+  }
+
+  /* Tactics */
+  .tactics { display: flex; flex-direction: column; gap: 8px; }
+  .tactic {
+    background: var(--white); border-radius: var(--r-m);
+    border: 1px solid var(--border); box-shadow: var(--shadow-s);
+    padding: 18px 22px;
+    display: flex; gap: 16px; align-items: flex-start;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .tactic:hover { transform: translateY(-1px); box-shadow: var(--shadow-m); }
+  .tactic-num {
+    font-family: 'Space Mono', monospace; font-size: 9px;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--rosa); margin-top: 3px; flex-shrink: 0; width: 20px;
+  }
+  .tactic-text { font-size: 14px; color: var(--text); line-height: 1.65; }
+  .tactic-text strong { font-weight: 600; }
+
+  /* Class quotes */
+  .class-quotes { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .cq-item {
+    background: var(--bg); border-radius: var(--r-m);
+    border: 1px solid var(--border); padding: 24px 28px;
+  }
+  .cq-text {
+    font-size: 17px; font-weight: 400; color: var(--text);
+    letter-spacing: -0.02em; line-height: 1.4; font-style: italic;
+    margin-bottom: 10px;
+  }
+  .cq-source { font-family: 'Space Mono', monospace; font-size: 9px; color: var(--text3); letter-spacing: 0.08em; text-transform: uppercase; }
+
+  @media (max-width: 768px) {
+    .class-pg-top { padding: 80px 16px 20px; }
+    .class-quotes { grid-template-columns: 1fr; }
+  }
+
+  /* ──────────────────────────────
+     FADE IN ANIMATION
+  ────────────────────────────── */
+  .fade { opacity: 0; transform: translateY(12px); transition: opacity 0.45s ease, transform 0.45s ease; }
+  .fade.visible { opacity: 1; transform: none; }
+
+  /* ──────────────────────────────
+     RESPONSIVE
+  ────────────────────────────── */
+  @media (max-width: 768px) {
+    nav { padding: 0 16px; }
+    .nav-links { display: none; }
+    .hero { grid-template-columns: 1fr; padding: 80px 16px 24px; }
+    .section { padding: 12px 16px; }
+    .bento { grid-template-columns: 1fr; }
+    .bento-card.span2 { grid-column: span 1; }
+    .vs-layout, .ciclos-grid2, .links2, .tpls { grid-template-columns: 1fr; }
+    .p2-row { grid-template-columns: 40px 1fr; }
+    .p2-photo { display: none; }
+    .footer-bar { flex-direction: column; gap: 12px; text-align: center; padding: 24px 16px 32px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav>
+  <div class="nav-logo">Mentoria ©</div>
+  <div class="nav-pages">
+    <button class="nav-page-btn active" data-nav="home">Home</button>
+    <button class="nav-page-btn" data-nav="onboarding">Onboarding</button>
+    <button class="nav-page-btn" data-nav="e01">E01 · Imersão</button>
+    <button class="nav-page-btn" data-nav="e03">E03 · Estratégia</button>
+    <button class="nav-page-btn" data-nav="e04">E04 · Direção Criativa</button>
+    <button class="nav-page-btn" disabled style="opacity:.28;">E05 · IV  🔒</button>
+    <button class="nav-page-btn" disabled style="opacity:.28;">E06 · Projeto Final  🔒</button>
+  </div>
+  <div class="nav-right">
+    <span class="pill pink">E06 — Em andamento</span>
+  </div>
+</nav>
+
+<div id="page-home">
+
+<!-- ── HERO ── -->
+<div class="hero">
+  <div class="hero-left fade">
+    <div class="hero-eyebrow">
+      <span class="pill">Mentoria 2026</span>
+      <span class="pill">@ocajoju</span>
+    </div>
+    <h1 class="hero-title">Olá, Carlos!<br>Seja bem-vindo.</h1>
+    <div class="hero-portal-tag">Portal do Mentorado</div>
+    <p class="hero-tagline">A sua base de direção, repertório e construção criativa.</p>
+    <p class="hero-sub">Esse não é um lugar para acumular aulas. É um espaço para voltar quando o processo ficar nebuloso, quando a estética parecer solta, quando a insegurança tentar dirigir o projeto no seu lugar.<br><br>Aqui você acompanha sua evolução, revisita decisões importantes e entende, etapa por etapa, como sair do improviso e construir um trabalho com mais clareza.</p>
+    <div class="hero-actions">
+      <a href="#progresso" class="btn btn-dark">Ver progresso</a>
+      <a href="#links" class="btn btn-outline">Links úteis</a>
+      <a href="https://drive.google.com" target="_blank" class="btn btn-pink">✦ &nbsp;Briefing do Projeto Fictício</a>
+    </div>
+  </div>
+  <div class="hero-card fade">
+    <div class="hero-photo">
+      <img src="carlos.jpg" alt="Carlos @ocajoju" onerror="this.outerHTML='<div class=hero-photo-placeholder><div class=hero-photo-icon>📷</div><div class=hero-photo-label>carlos.jpg</div></div>'">
+    </div>
+    <div class="hero-card-bottom">
+      <div class="hero-name">Carlos · @ocajoju</div>
+      <div class="hero-handle">Por Nara Geovana · Estúdio Flamma</div>
+    </div>
+  </div>
+</div>
+
+<!-- ── AULAS & 1:1 ── -->
+<div class="section" style="padding-top:40px;padding-bottom:0;">
+  <a href="https://drive.google.com/drive/folders/1VQ-peqCG0kRFS2jvJNtb62mdUzWhOWZO?usp=sharing" target="_blank" class="fade" style="text-decoration:none;display:flex;align-items:center;gap:20px;background:var(--text);border-radius:var(--r-l);padding:28px 36px;transition:opacity 0.2s;" onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'">
+    <div style="width:48px;height:48px;border-radius:14px;background:rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;">🎓</div>
+    <div>
+      <div style="font-size:16px;font-weight:600;color:#fff;letter-spacing:-0.01em;margin-bottom:4px;">Aulas 1:1</div>
+      <div style="font-size:13px;color:rgba(255,255,255,0.45);line-height:1.4;">Gravações, materiais e arquivos de cada aula</div>
+    </div>
+    <div style="margin-left:auto;color:rgba(255,255,255,0.25);font-size:20px;">→</div>
+  </a>
+</div>
+
+<!-- ── FRASE-GUIA ── -->
+<div class="frase-guia">
+  <div class="frase-guia-card fade">
+    <div class="frase-guia-text">
+      <p>Este portal não é uma pasta de arquivos.</p>
+      <p>É uma bússola para o tipo de criador que você está se tornando.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ── PROGRESSO ── -->
+<div class="section section-gap" id="progresso">
+  <div class="sec-header">
+    <div class="sec-title">Progresso</div>
+  </div>
+
+  <!-- Progress card -->
+  <div class="progress-card card fade" style="margin-bottom:12px;">
+    <div>
+      <div class="prog-label">Cronograma da mentoria</div>
+      <div class="prog-numbers">6 <span>de 10 encontros</span></div>
+      <div class="prog-track" style="max-width:420px;">
+        <div class="prog-fill" style="width:60%;"></div>
+      </div>
+      <div class="prog-sub">Fase atual · Updates · Avaliar Estratégia e Direção Criativa</div>
+    </div>
+    <div class="ring-wrap">
+      <svg width="88" height="88" viewBox="0 0 88 88">
+        <circle class="ring-bg" cx="44" cy="44" r="35"/>
+        <circle class="ring-fill" cx="44" cy="44" r="35"/>
+      </svg>
+      <div class="ring-text">
+        <div class="ring-pct">60%</div>
+        <div class="ring-desc label">concluído</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Timeline stepper -->
+  <div class="timeline-card fade">
+    <div class="stepper">
+      <div class="step">
+        <div class="step-connector done"></div>
+        <div class="step-dot done"><span>1</span></div>
+        <div class="step-num">E01</div>
+        <div class="step-label">Onboarding &amp;<br>Diagnóstico</div>
+      </div>
+      <div class="step">
+        <div class="step-connector done"></div>
+        <div class="step-dot done"><span>2</span></div>
+        <div class="step-num">E02</div>
+        <div class="step-label">Minha Jornada &amp;<br>Mentalidade</div>
+      </div>
+      <div class="step">
+        <div class="step-connector done"></div>
+        <div class="step-dot done"><span>3</span></div>
+        <div class="step-num">E03</div>
+        <div class="step-label">Processos &amp;<br>Método Flamma</div>
+      </div>
+      <div class="step">
+        <div class="step-connector done"></div>
+        <div class="step-dot done"><span>4</span></div>
+        <div class="step-num">—</div>
+        <div class="step-label">Absorção &amp;<br>Reorganização</div>
+      </div>
+      <div class="step">
+        <div class="step-connector done"></div>
+        <div class="step-dot done"><span>5</span></div>
+        <div class="step-num">E05</div>
+        <div class="step-label">Direção<br>de Arte</div>
+      </div>
+      <div class="step">
+        <div class="step-connector done"></div>
+        <div class="step-dot done"><span>6</span></div>
+        <div class="step-num">—</div>
+        <div class="step-label">Construção do<br>Moodboard</div>
+      </div>
+      <div class="step">
+        <div class="step-connector"></div>
+        <div class="step-dot active"><span>7</span></div>
+        <div class="step-num">E06</div>
+        <div class="step-label active">Updates · Avaliar<br>Estratégia e D.C.</div>
+      </div>
+      <div class="step">
+        <div class="step-connector"></div>
+        <div class="step-dot"><span>8</span></div>
+        <div class="step-num">E07</div>
+        <div class="step-label">Execução<br>Guiada</div>
+      </div>
+      <div class="step">
+        <div class="step-connector"></div>
+        <div class="step-dot"><span>9</span></div>
+        <div class="step-num">E08</div>
+        <div class="step-label">Feedback<br>do Projeto</div>
+      </div>
+      <div class="step">
+        <div class="step-connector"></div>
+        <div class="step-dot"><span>10</span></div>
+        <div class="step-num">FIM</div>
+        <div class="step-label">Encerramento</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── INSIGHTS ── -->
+<div class="section section-gap" id="insights">
+  <div class="sec-header">
+    <div class="sec-title">Insights</div>
+    <span class="label">4 frases essenciais</span>
+  </div>
+  <div class="bento">
+
+    <div class="bento-card fade">
+      <div class="ins-cat">Clareza</div>
+      <div class="ins-q">Clareza é sinal de valor. Marca confusa transmite improviso. Profissional confuso também.</div>
+    </div>
+
+    <div class="bento-card pink-bg fade">
+      <div class="ins-cat">Processo</div>
+      <div class="ins-q">Sem processo, a criatividade esgota. O cliente participa do projeto. Mas quem conduz a direção é você.</div>
+    </div>
+
+    <div class="bento-card fade">
+      <div class="ins-cat">Posicionamento</div>
+      <div class="ins-q">Posicionamento é uma escolha. E não escolher também comunica. Quem não define um território vira mão de obra disponível. Você não é um fazedor de coisas.</div>
+    </div>
+
+    <div class="bento-card fade" style="background:var(--text); border-color:transparent;">
+      <div class="ins-cat" style="color:rgba(255,255,255,0.35);">Foco</div>
+      <div class="ins-q" style="color:var(--white); font-style:italic;">"Quando tudo parece urgente, volte para a direção."</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ── ESTRATÉGIA VS IV ── -->
+<div class="section section-gap" id="estrategia">
+  <div class="sec-header">
+    <div class="sec-title">Estratégia de Marca vs Identidade Visual</div>
+  </div>
+  <div class="vs-layout">
+    <div class="vs-card2 fade">
+      <div class="vs-card2-title">
+        Branding &amp; Estratégia
+        <span class="vs-badge">O que</span>
+      </div>
+      <div class="vs-list">
+        <div class="vs-item"><div class="vs-item-dot"></div><div class="vs-item-text">Como a marca é percebida pelo mercado</div></div>
+        <div class="vs-item"><div class="vs-item-dot"></div><div class="vs-item-text">Posicionamento, diferenciação e proposta de valor</div></div>
+        <div class="vs-item"><div class="vs-item-dot"></div><div class="vs-item-text">Propósito, pilares e direção da marca</div></div>
+        <div class="vs-item"><div class="vs-item-dot"></div><div class="vs-item-text">Reconhecimento e coerência a longo prazo</div></div>
+        <div class="vs-item"><div class="vs-item-dot"></div><div class="vs-item-text">Define QUEM a marca é e onde quer chegar</div></div>
+      </div>
+    </div>
+    <div class="vs-card2 fade">
+      <div class="vs-card2-title">
+        Identidade Visual
+        <span class="vs-badge">Como</span>
+      </div>
+      <div class="vs-list">
+        <div class="vs-item"><div class="vs-item-dot"></div><div class="vs-item-text">Tradução visual de uma estratégia já definida</div></div>
+        <div class="vs-item"><div class="vs-item-dot"></div><div class="vs-item-text">Logo, cores, tipografia e sistema gráfico</div></div>
+        <div class="vs-item"><div class="vs-item-dot"></div><div class="vs-item-text">Pontos de contato visuais com o público</div></div>
+        <div class="vs-item"><div class="vs-item-dot"></div><div class="vs-item-text">Embalagem, presença digital, materiais</div></div>
+        <div class="vs-item"><div class="vs-item-dot"></div><div class="vs-item-text">Responde COMO a marca aparece visualmente</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── CICLOS ── -->
+<div class="section section-gap" id="processo">
+  <div class="sec-header">
+    <div class="sec-title">O jeito Flamma de deixar marcas</div>
+    <span class="label">Método · 3 ciclos</span>
+  </div>
+  <div class="ciclos-grid2">
+    <div class="ciclo2 fade">
+      <div class="ciclo2-num">Ciclo 01</div>
+      <div class="ciclo2-title">Imersão de Marca</div>
+      <div class="ciclo2-list">
+        <div class="ciclo2-item">Briefing profundo com o cliente</div>
+        <div class="ciclo2-item">Diagnóstico do negócio e contexto</div>
+        <div class="ciclo2-item">Pesquisa de mercado e concorrência</div>
+        <div class="ciclo2-item">Mapeamento do público-alvo</div>
+        <div class="ciclo2-item">Levantamento de referências visuais</div>
+      </div>
+    </div>
+    <div class="ciclo2 fade">
+      <div class="ciclo2-num">Ciclo 02</div>
+      <div class="ciclo2-title">Estratégia &amp; Direção Criativa</div>
+      <div class="ciclo2-list">
+        <div class="ciclo2-item">Propósito, posicionamento e diferenciais</div>
+        <div class="ciclo2-item">Pilares estratégicos e proposta de valor</div>
+        <div class="ciclo2-item">Territórios e universo da marca</div>
+        <div class="ciclo2-item">SWOT e análise de mercado</div>
+        <div class="ciclo2-item">Moodboard e direção criativa</div>
+      </div>
+    </div>
+    <div class="ciclo2 fade">
+      <div class="ciclo2-num">Ciclo 03</div>
+      <div class="ciclo2-title">Identidade Visual &amp; Criação</div>
+      <div class="ciclo2-list">
+        <div class="ciclo2-item">Sistema visual completo</div>
+        <div class="ciclo2-item">Logo, paleta, tipografia e formas</div>
+        <div class="ciclo2-item">Desdobramentos e pontos de contato</div>
+        <div class="ciclo2-item">Consultoria de materiais e aplicações</div>
+        <div class="ciclo2-item">Entrega final e brand book</div>
+      </div>
+    </div>
+  </div>
+  <div style="display:flex;justify-content:center;padding-top:32px;">
+    <button class="btn btn-pink fade" style="font-size:15px;padding:14px 32px;" data-nav="branding">✦ &nbsp;Processo de Marca</button>
+  </div>
+</div>
+
+<!-- ── IMAGEM PESSOAL ── -->
+<div class="section section-gap" id="pessoal">
+  <div class="sec-header">
+    <div class="sec-title">O que constrói um profissional criativo de alto nível</div>
+  </div>
+  <div class="pessoal2">
+
+    <div class="p2-row fade">
+      <div class="p2-idx active">01</div>
+      <div>
+        <div class="p2-title">Posicionamento claro</div>
+        <div class="p2-text">Escreva em uma frase o que você faz, para quem e o que você não faz. Se não consegue, essa é a primeira coisa a resolver. O restante depende disso.</div>
+      </div>
+      <div class="p2-photo"><img src="foto1.jpg" alt="" onerror="this.parentElement.innerHTML='<span>📷</span><small>foto1.jpg</small>'"></div>
+    </div>
+
+    <div class="p2-row fade">
+      <div class="p2-idx">02</div>
+      <div>
+        <div class="p2-title">Visão autoral</div>
+        <div class="p2-text">Separe três trabalhos do seu portfólio. Eles têm algo em comum visualmente? Se não têm, você está executando sem direção. É daqui que o posicionamento visual começa.</div>
+      </div>
+      <div class="p2-photo"><img src="foto2.jpg" alt="" onerror="this.parentElement.innerHTML='<span>📷</span><small>foto2.jpg</small>'"></div>
+    </div>
+
+    <div class="p2-row fade">
+      <div class="p2-idx">03</div>
+      <div>
+        <div class="p2-title">Repertório</div>
+        <div class="p2-text">Reserve 20 minutos por semana para consumir fora da sua bolha: arquitetura, moda, fotografia editorial, embalagem. O olhar criativo é treinado, não dado.</div>
+      </div>
+      <div class="p2-photo"><img src="foto3.jpg" alt="" onerror="this.parentElement.innerHTML='<span>📷</span><small>foto3.jpg</small>'"></div>
+    </div>
+
+    <div class="p2-row fade">
+      <div class="p2-idx">04</div>
+      <div>
+        <div class="p2-title">Coragem e determinação</div>
+        <div class="p2-text">Mande uma proposta essa semana. Não espere estar pronto. Cobrar o que vale começa quando você para de pedir desculpa pelo preço.</div>
+      </div>
+      <div class="p2-photo"><img src="foto4.jpg" alt="" onerror="this.parentElement.innerHTML='<span>📷</span><small>foto4.jpg</small>'"></div>
+    </div>
+
+    <div class="p2-row fade">
+      <div class="p2-idx">05</div>
+      <div>
+        <div class="p2-title">Viver do que você constrói</div>
+        <div class="p2-text">Calcule quanto precisa faturar no mês para cobrir custos e ter lucro. Divida pelo número de projetos que consegue entregar com qualidade. Esse é o seu preço mínimo. A partir dali, você negocia para cima.</div>
+      </div>
+      <div class="p2-photo"><img src="foto5.jpg" alt="" onerror="this.parentElement.innerHTML='<span>📷</span><small>foto5.jpg</small>'"></div>
+    </div>
+
+    <div class="p2-row fade">
+      <div class="p2-idx">06</div>
+      <div>
+        <div class="p2-title">Liberdade é o objetivo</div>
+        <div class="p2-text">Criar com autonomia, no ritmo certo, com visão autoral. Isso não é destino. É o resultado de cada escolha consciente que você faz ao longo do processo. O que você está escolhendo construir?</div>
+      </div>
+      <div class="p2-photo"><img src="foto6.jpg" alt="" onerror="this.parentElement.innerHTML='<span>📷</span><small>foto6.jpg</small>'"></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ── WHY ── -->
+<div class="section section-gap">
+  <div class="why-card fade">
+    <div class="label why-label">Simon Sinek · Golden Circle</div>
+    <p class="why-headline">As pessoas não compram o que você faz.<br>Elas compram o motivo por trás disso.</p>
+    <p class="why-body">O que você cria é o produto. Como você cria é o processo. Mas <strong>por que você cria</strong> é o que conecta. Num mercado cheio de criativos competentes, o seu porquê é o que diferencia. Não o estilo. Não o preço. A intenção por trás de cada escolha. <strong>Você sabe qual é o seu?</strong></p>
+  </div>
+</div>
+
+<!-- ── MENTORA ── -->
+<div class="section section-gap">
+  <div style="background:var(--rosa-bg);border:1px solid var(--rosa-bdr);border-radius:var(--r-l);padding:40px 48px;display:flex;align-items:center;gap:40px;flex-wrap:wrap;" class="fade">
+    <div style="flex-shrink:0;">
+      <div style="width:96px;height:96px;border-radius:50%;overflow:hidden;border:3px solid var(--rosa);background:var(--bg);">
+        <img src="nara.jpg" alt="Nara Geovana" style="width:100%;height:100%;object-fit:cover;display:block;"
+          onerror="this.outerHTML='<div style=width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:32px;>🌸</div>'">
+      </div>
+    </div>
+    <div style="flex:1;min-width:240px;display:flex;flex-direction:column;gap:12px;">
+      <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+        <div style="font-size:17px;font-weight:600;color:var(--text);letter-spacing:-0.01em;">Nara Geovana</div>
+        <span class="pill" style="background:var(--rosa);color:var(--text);font-size:11px;padding:4px 12px;">Sua Mentora</span>
+      </div>
+      <p style="font-size:13px;color:var(--text2);line-height:1.6;margin:0;">Founder e diretora criativa do Estúdio Flamma.</p>
+      <p style="font-size:14px;color:var(--text);line-height:1.75;margin:0;">Comecei no design antes mesmo de saber nomear o que estava fazendo: criando por curiosidade, testando ferramentas, ajudando pessoas próximas e aprendendo na prática. Minha trajetória passou por atendimento, agências, marketing, grandes marcas e muitos projetos que formaram meu olhar criativo e estratégico.</p>
+      <p style="font-size:14px;color:var(--text);line-height:1.75;margin:0;">Com o tempo, entendi que criar não é só executar uma ideia bonita — é saber observar, escolher, direcionar e sustentar decisões. O Flamma nasceu desse desejo de criar com mais intenção, método e liberdade.</p>
+      <p style="font-size:14px;color:var(--text);line-height:1.75;margin:0;">Hoje, estar nessa posição de mentora é um prazer enorme. Acredito muito no poder da troca, de dividir o que vivi e ajudar outro criativo a encontrar mais clareza, confiança e direção no próprio caminho.</p>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:4px;">
+        <a href="https://instagram.com/nageovana" target="_blank" style="font-size:12px;color:var(--text2);text-decoration:none;background:var(--white);border:1px solid var(--border);border-radius:20px;padding:5px 14px;">@nageovana</a>
+        <a href="https://instagram.com/stflamma" target="_blank" style="font-size:12px;color:var(--text2);text-decoration:none;background:var(--white);border:1px solid var(--border);border-radius:20px;padding:5px 14px;">@stflamma</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── LINKS ── -->
+<div class="section section-gap" id="links">
+  <div class="sec-header">
+    <div class="sec-title">Links úteis</div>
+  </div>
+  <div class="links2">
+    <a class="link2 fade" href="https://drive.google.com" target="_blank">
+      <div class="link2-icon">📁</div>
+      <div><div class="link2-name">Google Drive</div><div class="link2-desc">Materiais e arquivos da mentoria</div></div>
+    </a>
+    <a class="link2 fade" href="https://www.figma.com" target="_blank">
+      <div class="link2-icon">🖥️</div>
+      <div><div class="link2-name">Figma</div><div class="link2-desc">Apresentações de marca</div></div>
+    </a>
+    <a class="link2 fade" href="https://www.adobe.com/products/illustrator.html" target="_blank">
+      <div class="link2-icon">✏️</div>
+      <div><div class="link2-name">Illustrator</div><div class="link2-desc">Criação de marcas e sistemas visuais</div></div>
+    </a>
+    <a class="link2 fade" href="https://trello.com" target="_blank">
+      <div class="link2-icon">📋</div>
+      <div><div class="link2-name">Trello / ClickUp</div><div class="link2-desc">Gestão de projetos</div></div>
+    </a>
+    <a class="link2 fade" href="https://calendar.google.com" target="_blank">
+      <div class="link2-icon">📅</div>
+      <div><div class="link2-name">Google Calendar</div><div class="link2-desc">Reuniões e blocos de trabalho</div></div>
+    </a>
+    <a class="link2 fade" href="https://www.pinterest.com" target="_blank">
+      <div class="link2-icon">📌</div>
+      <div><div class="link2-name">Pinterest</div><div class="link2-desc">Referências e moodboard</div></div>
+    </a>
+    <a class="link2 fade" href="https://clube.capital/?src=&sck=1781559878944.574215.3" target="_blank">
+      <div class="link2-icon">📰</div>
+      <div><div class="link2-name">Newsletters</div><div class="link2-desc">Negócios, mercado e tendências</div></div>
+    </a>
+    <a class="link2 fade" href="https://jitter.video" target="_blank">
+      <div class="link2-icon">✨</div>
+      <div><div class="link2-name">Jitter</div><div class="link2-desc">Edição motion e animações</div></div>
+    </a>
+    <a class="link2 fade" href="https://claude.ai" target="_blank">
+      <div class="link2-icon">🤖</div>
+      <div><div class="link2-name">Claude</div><div class="link2-desc">Criação de páginas e otimização de tempo</div></div>
+    </a>
+    <a class="link2 fade" href="https://drive.google.com/drive/folders/1k3MPMAG8R6PuqIYbBnd3sywXQago41qy?usp=sharing" target="_blank">
+      <div class="link2-icon">💬</div>
+      <div><div class="link2-name">Prompts</div><div class="link2-desc">Biblioteca de prompts da mentoria</div></div>
+    </a>
+  </div>
+</div>
+
+<!-- ── TEMPLATES ── -->
+<div class="section section-gap" id="templates">
+  <div class="sec-header">
+    <div class="sec-title">Templates &amp; recursos</div>
+    <span class="label">Não acumule. Aplique.</span>
+  </div>
+
+  <!-- Grupo: Processo de Marca -->
+  <div class="label" style="margin-bottom:10px;">Processo de Marca</div>
+  <div class="tpls" style="margin-bottom:28px;">
+    <div class="tpl2 fade">
+      <div class="tpl2-tag">Ciclo 01</div>
+      <div class="tpl2-title">Briefing de Imersão</div>
+      <div class="tpl2-desc">Onde você está antes de qualquer decisão criativa.</div>
+      <a class="tpl2-btn" href="https://drive.google.com/drive/folders/12ysrtbM-fkJfC-dAVQc67w04nxdDq9k6?usp=sharing" target="_blank">Acessar →</a>
+    </div>
+    <div class="tpl2 fade">
+      <div class="tpl2-tag">Ciclo 02</div>
+      <div class="tpl2-title">Mapa de Estratégia</div>
+      <div class="tpl2-desc">O que define como a marca existe no mercado.</div>
+      <a class="tpl2-btn" href="https://drive.google.com/drive/folders/1bk_g7crmkzEqDEaUibkAEEXZ1Wagt9xY?usp=sharing" target="_blank">Acessar →</a>
+    </div>
+    <div class="tpl2 fade">
+      <div class="tpl2-tag">Ciclo 02</div>
+      <div class="tpl2-title">Direção Criativa</div>
+      <div class="tpl2-desc">Estrutura para definir universo visual, referências e direção estética.</div>
+      <a class="tpl2-btn" href="https://drive.google.com/drive/folders/131wBEOC5jUPbJwUhTNISCzRhs-34hJ4I?usp=drive_link" target="_blank">Acessar →</a>
+    </div>
+    <div class="tpl2 fade">
+      <div class="tpl2-tag">Ciclo 02</div>
+      <div class="tpl2-title">Direção de Shooting</div>
+      <div class="tpl2-desc">Roteiro visual para sessões fotográficas — atmosfera, referências e cenas.</div>
+      <a class="tpl2-btn" href="https://drive.google.com/drive/folders/131wBEOC5jUPbJwUhTNISCzRhs-34hJ4I?usp=drive_link" target="_blank">Acessar →</a>
+    </div>
+    <div class="tpl2 fade">
+      <div class="tpl2-tag">Ciclo 03</div>
+      <div class="tpl2-title">Apresentação de IV</div>
+      <div class="tpl2-desc">Da intenção ao sistema visual completo.</div>
+      <a class="tpl2-btn" href="https://drive.google.com/drive/folders/1UWxLdaIz4OjSpp7-H3NOTOQpNXo7rr6-?usp=drive_link" target="_blank">Acessar →</a>
+    </div>
+    <div class="tpl2 fade">
+      <div class="tpl2-tag">Entrega Final</div>
+      <div class="tpl2-title">Brandbook</div>
+      <div class="tpl2-desc">Arquivo de marca completo — sistema, aplicações e uso.</div>
+      <a class="tpl2-btn" href="https://drive.google.com/drive/folders/1xCTMcyrfGI_BCcIfXPdCZBAQANAXpJQI?usp=drive_link" target="_blank">Acessar →</a>
+    </div>
+  </div>
+
+  <!-- Grupo: Gestão & Comercial -->
+  <div class="label" style="margin-bottom:10px;">Gestão &amp; Comercial</div>
+  <div class="tpls">
+    <div class="tpl2 fade">
+      <div class="tpl2-tag">Processo</div>
+      <div class="tpl2-title">Onboarding do Cliente</div>
+      <div class="tpl2-desc">Antes de começar, a gente alinha. Sempre.</div>
+      <a class="tpl2-btn" href="https://drive.google.com/drive/folders/1iljLhlrURxJQSqErfWD2d9cfIFGOy7Qz?usp=sharing" target="_blank">Acessar →</a>
+    </div>
+    <div class="tpl2 fade">
+      <div class="tpl2-tag">Comercial</div>
+      <div class="tpl2-title">Proposta Comercial</div>
+      <div class="tpl2-desc">Estrutura para cobrar o que você vale.</div>
+      <a class="tpl2-btn" href="https://drive.google.com/drive/folders/1AU6seDV4kNaBNzA6qRO1Q9-Ur0VFTQlX?usp=sharing" target="_blank">Acessar →</a>
+    </div>
+    <div class="tpl2 fade">
+      <div class="tpl2-tag">Gestão</div>
+      <div class="tpl2-title">Estrutura de Drive</div>
+      <div class="tpl2-desc">Organização de pastas para projetos de branding.</div>
+      <a class="tpl2-btn" href="https://drive.google.com/drive/folders/1W9Af_dooNR_4cuaDlenMvLDar1dCtpI2?usp=sharing" target="_blank">Acessar →</a>
+    </div>
+    <div class="tpl2 fade">
+      <div class="tpl2-tag">Cliente</div>
+      <div class="tpl2-title">Portal do Cliente · Notion</div>
+      <div class="tpl2-desc">Template que você duplica e entrega ao seu cliente como base de projeto.</div>
+      <a class="tpl2-btn" href="https://app.notion.com/p/Modelo-Portal-do-Cliente-38072b9f1334802fb84dede3462830c9?source=copy_link" target="_blank">Duplicar →</a>
+    </div>
+  </div>
+</div>
+
+<!-- ── BANNER RODAPÉ ── -->
+<div style="max-width:1100px;margin:80px auto 0;padding:0 32px;">
+<div style="width:100%;position:relative;background:var(--rosa);aspect-ratio:16/9;overflow:hidden;display:flex;align-items:center;justify-content:center;border-radius:24px;">
+  <img src="banner.jpg" alt="Estúdio Flamma · Mentoria" style="width:100%;height:100%;object-fit:cover;display:block;position:absolute;inset:0;"
+    onerror="this.style.display='none'"
+    onload="const p=document.getElementById('banner-placeholder');if(p)p.style.display='none'">
+  <!-- Placeholder visível enquanto banner.jpg não existe -->
+  <div id="banner-placeholder" style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;position:relative;z-index:1;text-align:center;padding:40px;">
+    <div style="font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--text);opacity:.5;font-family:'Space Mono',monospace;">1920 × 1080</div>
+    <div style="font-size:28px;font-weight:600;color:var(--text);letter-spacing:-0.02em;">Logo · Mentoria Flamma</div>
+    <div style="font-size:13px;color:var(--text);opacity:.5;">Arte será inserida aqui — salve como <strong>banner.jpg</strong> na pasta</div>
+  </div>
+</div>
+</div>
+
+<!-- ── FOOTER ── -->
+<div class="footer-bar">
+  <div class="footer-logo">Flamma</div>
+  <div class="footer-copy">Portal de Mentoria 2026 — @ocajoju — Por Nara Geovana</div>
+</div>
+
+</div><!-- /page-home -->
+
+<!-- ══════════════════════════════════════════════════════
+     E01 — IMERSÃO DE MARCA & DIAGNÓSTICO
+════════════════════════════════════════════════════════ -->
+<div id="page-e01" class="class-page">
+  <div class="class-pg-top">
+    <div class="class-pg-meta fade">
+      <span class="pill dark">E01</span>
+      <span class="label">Imersão de Marca</span>
+    </div>
+    <h1 class="class-pg-title fade">Imersão<br>de Marca</h1>
+    <div class="class-pg-frase fade">
+      <p>O momento de mergulhar no negócio, entender o contexto e extrair as respostas que vão sustentar toda a estratégia.</p>
+    </div>
+  </div>
+
+  <div class="section section-gap">
+    <div class="sec-header"><div class="sec-title">O que é a imersão</div></div>
+    <div style="display:flex;flex-direction:column;gap:14px;" class="fade">
+      <div style="background:var(--white);border-radius:var(--r-l);border:1px solid var(--border);box-shadow:var(--shadow-s);padding:28px 32px;">
+        <p style="font-size:15px;color:var(--text);line-height:1.75;margin:0;">A imersão é onde você deixa de ser apenas designer e começa a atuar como <strong>estrategista</strong>.</p>
+      </div>
+      <div style="background:var(--rosa-bg);border-radius:var(--r-l);border:1px solid var(--rosa-bdr);padding:28px 32px;">
+        <p style="font-size:15px;color:var(--text);line-height:1.75;margin:0;">Aqui, o objetivo não é fazer perguntas soltas. É conduzir uma conversa que revele o que existe por trás da marca: o negócio, o público, os diferenciais, as dores, os desejos, as ambições e os conflitos que ainda não estão claros.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section section-gap">
+    <div class="sec-header"><div class="sec-title">Como conduzir a call</div></div>
+    <div class="bento">
+      <div class="bento-card fade">
+        <div class="ins-cat">Antes de tudo</div>
+        <div class="ins-q">Chegue com o board de perguntas aberto. Não improvise. A estrutura existe para proteger o processo — e o cliente sente quando você tem método.</div>
+      </div>
+      <div class="bento-card pink-bg fade">
+        <div class="ins-cat">Durante a call</div>
+        <div class="ins-q">Escuta ativa, anotações reais. O que o cliente não sabe nomear é tão importante quanto o que ele diz. Presta atenção no que aparece nas entrelinhas.</div>
+      </div>
+      <div class="bento-card fade">
+        <div class="ins-cat">Você conduz</div>
+        <div class="ins-q">Se a conversa sair do trilho, traga de volta com uma pergunta do board. O cliente compartilha — você guia. Esse é o papel que você precisa ocupar.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BLOCO DE PERGUNTAS — helper styles inline -->
+  <style>
+    .bloco-imersao { background:var(--white); border-radius:var(--r-l); border:1px solid var(--border); box-shadow:var(--shadow-s); overflow:hidden; }
+    .bloco-header { padding:20px 28px 16px; border-bottom:1px solid var(--border); display:flex; align-items:center; gap:12px; }
+    .bloco-num { width:30px; height:30px; border-radius:8px; background:var(--text); color:var(--white); font-size:12px; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+    .bloco-titulo { font-size:15px; font-weight:600; color:var(--text); }
+    .bloco-body { padding:20px 28px 24px; display:flex; flex-direction:column; gap:16px; }
+    .bloco-perguntas { display:flex; flex-direction:column; gap:8px; }
+    .bloco-q { display:flex; align-items:flex-start; gap:10px; font-size:14px; color:var(--text); line-height:1.55; }
+    .bloco-q::before { content:''; width:5px; height:5px; border-radius:50%; background:var(--rosa); flex-shrink:0; margin-top:7px; }
+    .bloco-dica { background:var(--bg); border-radius:10px; padding:14px 18px; display:flex; flex-direction:column; gap:6px; }
+    .bloco-dica-label { font-size:11px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--rosa); }
+    .bloco-dica-text { font-size:13px; color:var(--text2); line-height:1.6; }
+    .bloco-provocacao { background:var(--rosa-bg); border-radius:10px; padding:14px 18px; border-left:3px solid var(--rosa); display:flex; flex-direction:column; gap:6px; }
+    .bloco-provocacao-label { font-size:11px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--text3); }
+    .bloco-provocacao-text { font-size:13px; color:var(--text); line-height:1.65; font-style:italic; }
+  </style>
+
+  <div class="section section-gap">
+    <div class="sec-header"><div class="sec-title">Os blocos da imersão</div></div>
+    <div style="display:flex;flex-direction:column;gap:16px;">
+
+      <!-- Bloco 01 -->
+      <div class="bloco-imersao fade">
+        <div class="bloco-header">
+          <div class="bloco-num">01</div>
+          <div class="bloco-titulo">Entendendo o negócio</div>
+        </div>
+        <div class="bloco-body">
+          <div class="bloco-perguntas">
+            <div class="bloco-q">O que exatamente a sua marca vende hoje?</div>
+            <div class="bloco-q">Qual é o principal produto ou serviço?</div>
+            <div class="bloco-q">Como esse produto ou serviço é entregue?</div>
+            <div class="bloco-q">Qual é o momento atual do negócio?</div>
+            <div class="bloco-q">O que está funcionando bem?</div>
+            <div class="bloco-q">O que ainda parece confuso?</div>
+            <div class="bloco-q">Quais são os maiores desafios da marca hoje?</div>
+            <div class="bloco-q">O que te fez sentir que precisava de uma nova identidade visual ou estratégia de marca agora?</div>
+          </div>
+          <div class="bloco-dica">
+            <div class="bloco-dica-label">Dica</div>
+            <div class="bloco-dica-text">Aqui você está tentando entender o ponto A. Não pule rápido para solução. Antes, investigue o problema.</div>
+          </div>
+          <div class="bloco-provocacao">
+            <div class="bloco-provocacao-label">Pergunta de aprofundamento</div>
+            <div class="bloco-provocacao-text">"Quando você diz que a marca não comunica bem, o que exatamente você sente que não está sendo percebido pelas pessoas?"</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bloco 02 -->
+      <div class="bloco-imersao fade">
+        <div class="bloco-header">
+          <div class="bloco-num">02</div>
+          <div class="bloco-titulo">Objetivo do projeto</div>
+        </div>
+        <div class="bloco-body">
+          <div class="bloco-perguntas">
+            <div class="bloco-q">O que você espera que mude depois desse projeto?</div>
+            <div class="bloco-q">Como você quer que as pessoas passem a perceber a marca?</div>
+            <div class="bloco-q">Existe algum público que você quer atrair mais?</div>
+            <div class="bloco-q">Existe algum público que você quer deixar de atrair?</div>
+            <div class="bloco-q">O que seria um projeto bem-sucedido para você?</div>
+            <div class="bloco-q">Se essa marca estivesse funcionando do jeito ideal daqui a 1 ano, como ela estaria?</div>
+          </div>
+          <div class="bloco-dica">
+            <div class="bloco-dica-label">Dica</div>
+            <div class="bloco-dica-text">Essa parte te ajuda a vender estratégia. O cliente muitas vezes acha que quer "um logo mais bonito", mas na verdade quer percepção, desejo, diferenciação, autoridade ou reposicionamento.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bloco 03 -->
+      <div class="bloco-imersao fade">
+        <div class="bloco-header">
+          <div class="bloco-num">03</div>
+          <div class="bloco-titulo">Público e cliente ideal</div>
+        </div>
+        <div class="bloco-body">
+          <div class="bloco-perguntas">
+            <div class="bloco-q">Quem compra de você hoje?</div>
+            <div class="bloco-q">Quem você gostaria que comprasse mais?</div>
+            <div class="bloco-q">Quem é o cliente que mais valoriza o que você entrega?</div>
+            <div class="bloco-q">Quais são as dores desse público?</div>
+            <div class="bloco-q">O que esse público deseja conquistar?</div>
+            <div class="bloco-q">O que ele valoriza em uma marca como a sua?</div>
+            <div class="bloco-q">Onde esse público busca referências?</div>
+            <div class="bloco-q">Que tipo de linguagem aproxima esse público?</div>
+            <div class="bloco-q">Que tipo de comunicação afastaria esse público?</div>
+          </div>
+          <div class="bloco-dica">
+            <div class="bloco-dica-label">Dica</div>
+            <div class="bloco-dica-text">Não aceite "meu público é todo mundo". Marca forte precisa fazer escolhas.</div>
+          </div>
+          <div class="bloco-provocacao">
+            <div class="bloco-provocacao-label">Sugestão de provocação</div>
+            <div class="bloco-provocacao-text">"Quando a marca tenta falar com todo mundo, ela normalmente vira uma marca sem tensão, sem ponto de vista e sem desejo."</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bloco 04 -->
+      <div class="bloco-imersao fade">
+        <div class="bloco-header">
+          <div class="bloco-num">04</div>
+          <div class="bloco-titulo">Concorrência e diferenciação</div>
+        </div>
+        <div class="bloco-body">
+          <div class="bloco-perguntas">
+            <div class="bloco-q">Quem são seus principais concorrentes?</div>
+            <div class="bloco-q">O que você admira nessas marcas?</div>
+            <div class="bloco-q">O que você não quer parecer?</div>
+            <div class="bloco-q">Em que você acredita que sua marca é diferente?</div>
+            <div class="bloco-q">O que o mercado costuma fazer de um jeito muito parecido?</div>
+            <div class="bloco-q">Existe alguma lacuna que a sua marca poderia ocupar?</div>
+            <div class="bloco-q">Por que alguém escolheria você e não outra marca parecida?</div>
+          </div>
+          <div class="bloco-dica">
+            <div class="bloco-dica-label">Dica</div>
+            <div class="bloco-dica-text">Aqui você está buscando território. Não é sobre copiar concorrente. É sobre entender onde existe espaço para construir diferença.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bloco 05 -->
+      <div class="bloco-imersao fade">
+        <div class="bloco-header">
+          <div class="bloco-num">05</div>
+          <div class="bloco-titulo">Essência da marca</div>
+        </div>
+        <div class="bloco-body">
+          <div class="bloco-perguntas">
+            <div class="bloco-q">Por que essa marca existe além de vender?</div>
+            <div class="bloco-q">Quais valores precisam aparecer na marca?</div>
+            <div class="bloco-q">O que essa marca defende?</div>
+            <div class="bloco-q">O que essa marca nunca faria?</div>
+            <div class="bloco-q">Se a marca fosse uma pessoa, como ela se comportaria?</div>
+            <div class="bloco-q">Ela seria mais sofisticada, acessível, provocativa, acolhedora, técnica, divertida?</div>
+            <div class="bloco-q">Quais sensações a marca precisa transmitir?</div>
+          </div>
+          <div class="bloco-dica">
+            <div class="bloco-dica-label">Dica</div>
+            <div class="bloco-dica-text">Essa parte vai alimentar tom de voz, conceito, símbolos, narrativa e direção visual.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bloco 06 -->
+      <div class="bloco-imersao fade">
+        <div class="bloco-header">
+          <div class="bloco-num">06</div>
+          <div class="bloco-titulo">Direção visual inicial</div>
+        </div>
+        <div class="bloco-body">
+          <div class="bloco-perguntas">
+            <div class="bloco-q">Que marcas você admira visualmente?</div>
+            <div class="bloco-q">Que estilos você sente que combinam com a marca?</div>
+            <div class="bloco-q">Que estilos você quer evitar?</div>
+            <div class="bloco-q">Existe alguma cor, símbolo ou elemento que precisa ser considerado?</div>
+            <div class="bloco-q">A marca precisa parecer mais premium, próxima, jovem, técnica, artesanal, ousada, minimalista?</div>
+            <div class="bloco-q">O que a identidade atual comunica que não faz mais sentido?</div>
+          </div>
+          <div class="bloco-provocacao">
+            <div class="bloco-provocacao-label">Sugestão de fala</div>
+            <div class="bloco-provocacao-text">"A gente pode considerar suas preferências, claro. Mas a decisão visual precisa estar conectada ao posicionamento da marca e ao público que queremos atrair."</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="section section-gap">
+    <div class="sec-header"><div class="sec-title">Fechamento da call</div></div>
+    <div style="display:flex;flex-direction:column;gap:14px;" class="fade">
+      <div class="bloco-provocacao" style="border-radius:var(--r-l);">
+        <div class="bloco-provocacao-label">Sugestão de fala</div>
+        <div class="bloco-provocacao-text">"Perfeito. Com tudo que conversamos hoje, eu vou organizar os principais insights e transformar isso em uma leitura estratégica da marca. A partir daqui, a gente começa a sair da informação bruta e construir direção: o que a marca precisa comunicar, quais caminhos fazem sentido e como isso pode aparecer visualmente."</div>
+      </div>
+      <div style="background:var(--white);border-radius:var(--r-l);border:1px solid var(--border);box-shadow:var(--shadow-s);padding:24px 28px;">
+        <p style="font-size:14px;color:var(--text2);line-height:1.65;margin:0;">Confirme os próximos passos em voz alta e já puxe o gancho para o próximo encontro — geralmente com um intervalo de <strong>4 a 5 semanas</strong>.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section section-gap" style="text-align:center;">
+    <div class="fade" style="display:flex;flex-direction:column;align-items:center;gap:12px;">
+      <div style="font-size:12px;color:var(--text3);letter-spacing:.06em;text-transform:uppercase;">Próximo encontro</div>
+      <a href="#" class="btn btn-pink" style="font-size:15px;padding:14px 32px;text-decoration:none;">Reunião de Estratégia de Marca &amp; Direção Criativa →</a>
+    </div>
+  </div>
+
+  <div class="footer-bar"><div class="footer-logo">Flamma</div><div class="footer-copy">E01 · Imersão de Marca · Mentoria 2026</div></div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     ONBOARDING — CHECKLIST DE BOAS-VINDAS
+════════════════════════════════════════════════════════ -->
+<div id="page-onboarding" class="class-page">
+  <div class="class-pg-top">
+    <div class="class-pg-meta fade">
+      <span class="pill dark">Onboarding</span>
+      <span class="label">Onboarding do Cliente</span>
+    </div>
+    <h1 class="class-pg-title fade">Onboarding<br>do Cliente</h1>
+    <div class="class-pg-frase fade">
+      <p>O primeiro passo para transformar um projeto contratado em uma experiência profissional, organizada e segura.</p>
+    </div>
+  </div>
+
+  <div class="section section-gap">
+    <div class="sec-header"><div class="sec-title">O que é o onboarding</div></div>
+    <div style="display:flex;flex-direction:column;gap:14px;" class="fade">
+      <div style="background:var(--white);border-radius:var(--r-l);border:1px solid var(--border);box-shadow:var(--shadow-s);padding:28px 32px;">
+        <p style="font-size:15px;color:var(--text);line-height:1.75;margin:0;">O onboarding é o momento em que você mostra para o cliente que ele não comprou apenas "uma identidade visual". <strong>Ele entrou em um processo.</strong></p>
+      </div>
+      <div style="background:var(--white);border-radius:var(--r-l);border:1px solid var(--border);box-shadow:var(--shadow-s);padding:28px 32px;">
+        <p style="font-size:15px;color:var(--text);line-height:1.75;margin:0;">Aqui você prepara o terreno, organiza os próximos passos, alinha expectativas e mostra que existe método por trás da sua entrega.</p>
+      </div>
+      <div style="background:var(--rosa-bg);border-radius:var(--r-l);border:1px solid var(--rosa-bdr);padding:28px 32px;">
+        <p style="font-size:15px;color:var(--text);line-height:1.75;margin:0;">Um bom onboarding reduz ansiedade, evita ruído, aumenta confiança e faz o cliente perceber que está sendo conduzido por um profissional — não por alguém que vai simplesmente abrir o Illustrator e "ver o que sai".</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section section-gap">
+    <div class="sec-header"><div class="sec-title">Objetivo desta etapa</div></div>
+    <div style="background:var(--white);border-radius:var(--r-l);border:1px solid var(--border);box-shadow:var(--shadow-s);padding:28px 32px;" class="fade">
+      <p style="font-size:14px;color:var(--text2);margin:0 0 16px;font-weight:500;letter-spacing:.04em;text-transform:uppercase;">Garantir que o cliente entenda:</p>
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <div style="display:flex;align-items:flex-start;gap:12px;font-size:15px;color:var(--text);line-height:1.6;"><span style="color:var(--rosa);font-size:18px;margin-top:1px;">·</span> como o projeto vai funcionar;</div>
+        <div style="display:flex;align-items:flex-start;gap:12px;font-size:15px;color:var(--text);line-height:1.6;"><span style="color:var(--rosa);font-size:18px;margin-top:1px;">·</span> quais são as etapas do processo;</div>
+        <div style="display:flex;align-items:flex-start;gap:12px;font-size:15px;color:var(--text);line-height:1.6;"><span style="color:var(--rosa);font-size:18px;margin-top:1px;">·</span> o que será entregue;</div>
+        <div style="display:flex;align-items:flex-start;gap:12px;font-size:15px;color:var(--text);line-height:1.6;"><span style="color:var(--rosa);font-size:18px;margin-top:1px;">·</span> quais são as responsabilidades dele;</div>
+        <div style="display:flex;align-items:flex-start;gap:12px;font-size:15px;color:var(--text);line-height:1.6;"><span style="color:var(--rosa);font-size:18px;margin-top:1px;">·</span> quais são os prazos;</div>
+        <div style="display:flex;align-items:flex-start;gap:12px;font-size:15px;color:var(--text);line-height:1.6;"><span style="color:var(--rosa);font-size:18px;margin-top:1px;">·</span> quais canais serão usados;</div>
+        <div style="display:flex;align-items:flex-start;gap:12px;font-size:15px;color:var(--text);line-height:1.6;"><span style="color:var(--rosa);font-size:18px;margin-top:1px;">·</span> e o que você precisa receber para começar com clareza.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section section-gap">
+    <div class="sec-header"><div class="sec-title">Perfis de cliente</div></div>
+    <div class="tactics">
+      <div class="tactic fade">
+        <div class="tactic-num" style="font-size:20px;">🏃</div>
+        <div class="tactic-text">
+          <strong>Cliente ocupado</strong> — pouco tempo, respostas curtas, quer ir direto ao ponto. Seja objetivo, priorize as perguntas mais estratégicas, envie resumo por escrito depois. Silêncio não é desinteresse.
+        </div>
+      </div>
+      <div class="tactic fade">
+        <div class="tactic-num" style="font-size:20px;">💬</div>
+        <div class="tactic-text">
+          <strong>Cliente participativo</strong> — adora contar a história, tem muito a dizer, muda de assunto. Deixe fluir nos primeiros minutos, depois use o board para ancorar. Riqueza de conteúdo — filtre o que é estratégico.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section section-gap">
+    <div class="sec-header">
+      <div class="sec-title">Checklist — Antes de iniciar o projeto</div>
+      <div class="sec-sub">Clique para marcar como feito</div>
+    </div>
+    <div class="checklist" id="onboarding-checklist">
+
+      <div class="check-item" onclick="toggleCheck(this)" style="flex-direction:column;align-items:flex-start;gap:12px;">
+        <div style="display:flex;align-items:center;gap:14px;width:100%;">
+          <div class="check-box"></div>
+          <div class="check-text"><strong>01 · Enviar mensagem de boas-vindas</strong></div>
+        </div>
+        <div style="padding-left:36px;display:flex;flex-direction:column;gap:8px;">
+          <p style="font-size:13px;color:var(--text2);line-height:1.6;margin:0;">Explique que o projeto começou oficialmente e reforce que ele será conduzido por etapas.</p>
+          <div style="background:var(--bg);border-radius:10px;padding:14px 16px;border-left:3px solid var(--rosa);">
+            <p style="font-size:12px;color:var(--text2);margin:0 0 6px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;">Sugestão de copy</p>
+            <p style="font-size:13px;color:var(--text);line-height:1.65;margin:0;font-style:italic;">"Oi, [nome]. Seja bem-vindo ao nosso processo de construção de marca. A partir de agora, vamos trabalhar juntos para transformar a sua marca em algo mais claro, estratégico e coerente com o que você quer construir. Para isso, vou te conduzir por algumas etapas: onboarding, briefing, imersão, diagnóstico, direção criativa, criação visual e apresentação final."</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="check-item" onclick="toggleCheck(this)" style="flex-direction:column;align-items:flex-start;gap:12px;">
+        <div style="display:flex;align-items:center;gap:14px;width:100%;">
+          <div class="check-box"></div>
+          <div class="check-text"><strong>02 · Enviar o cronograma do projeto</strong></div>
+        </div>
+        <div style="padding-left:36px;display:flex;flex-direction:column;gap:8px;">
+          <p style="font-size:13px;color:var(--text2);line-height:1.6;margin:0;">Mostre o caminho completo. Cliente premium precisa visualizar processo.</p>
+          <div style="background:var(--bg);border-radius:10px;padding:14px 16px;border-left:3px solid var(--rosa);">
+            <p style="font-size:12px;color:var(--text2);margin:0 0 6px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;">Sugestão de copy</p>
+            <p style="font-size:13px;color:var(--text);line-height:1.65;margin:0;font-style:italic;">"Nosso projeto será dividido em etapas para garantir que cada decisão tenha intenção. Primeiro vamos entender o negócio, depois mergulhar na essência da marca, construir uma direção criativa e só então partir para a criação visual."</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="check-item" onclick="toggleCheck(this)" style="flex-direction:column;align-items:flex-start;gap:12px;">
+        <div style="display:flex;align-items:center;gap:14px;width:100%;">
+          <div class="check-box"></div>
+          <div class="check-text"><strong>03 · Enviar o briefing inicial</strong> <span style="font-size:12px;color:var(--text3);font-weight:400;">(quando solicitado)</span></div>
+        </div>
+        <div style="padding-left:36px;display:flex;flex-direction:column;gap:8px;">
+          <div style="background:var(--bg2);border-radius:10px;padding:12px 16px;display:flex;align-items:flex-start;gap:10px;">
+            <span style="font-size:14px;margin-top:1px;">⚠️</span>
+            <p style="font-size:13px;color:var(--text);line-height:1.6;margin:0;"><strong>A prioridade é sempre a reunião de imersão.</strong> O briefing entra quando a marca o solicita — e serve como uma camada de preparo antes ou em paralelo ao encontro, nunca como substituto.</p>
+          </div>
+          <div style="background:var(--bg);border-radius:10px;padding:14px 16px;border-left:3px solid var(--rosa);">
+            <p style="font-size:12px;color:var(--text2);margin:0 0 6px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;">Sugestão de copy</p>
+            <p style="font-size:13px;color:var(--text);line-height:1.65;margin:0;font-style:italic;">"O briefing é a primeira camada de entendimento do projeto. Quanto mais completas forem suas respostas, mais assertiva será a construção estratégica e visual da marca."</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="check-item" onclick="toggleCheck(this)" style="flex-direction:column;align-items:flex-start;gap:12px;">
+        <div style="display:flex;align-items:center;gap:14px;width:100%;">
+          <div class="check-box"></div>
+          <div class="check-text"><strong>04 · Organizar pasta do projeto</strong></div>
+        </div>
+        <div style="padding-left:36px;">
+          <p style="font-size:13px;color:var(--text2);line-height:1.6;margin:0 0 10px;">Crie uma pasta com estrutura padrão:</p>
+          <div style="display:flex;flex-wrap:wrap;gap:8px;">
+            <span style="background:var(--bg2);border-radius:20px;padding:5px 12px;font-size:12px;color:var(--text2);">Contrato</span>
+            <span style="background:var(--bg2);border-radius:20px;padding:5px 12px;font-size:12px;color:var(--text2);">Briefing</span>
+            <span style="background:var(--bg2);border-radius:20px;padding:5px 12px;font-size:12px;color:var(--text2);">Referências</span>
+            <span style="background:var(--bg2);border-radius:20px;padding:5px 12px;font-size:12px;color:var(--text2);">Apresentações</span>
+            <span style="background:var(--bg2);border-radius:20px;padding:5px 12px;font-size:12px;color:var(--text2);">Arquivos Finais</span>
+            <span style="background:var(--bg2);border-radius:20px;padding:5px 12px;font-size:12px;color:var(--text2);">Materiais do Cliente</span>
+            <span style="background:var(--bg2);border-radius:20px;padding:5px 12px;font-size:12px;color:var(--text2);">Moodboards</span>
+            <span style="background:var(--bg2);border-radius:20px;padding:5px 12px;font-size:12px;color:var(--text2);">Versões da Identidade</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="check-item" onclick="toggleCheck(this)" style="flex-direction:column;align-items:flex-start;gap:12px;">
+        <div style="display:flex;align-items:center;gap:14px;width:100%;">
+          <div class="check-box"></div>
+          <div class="check-text"><strong>05 · Alinhar canais de comunicação</strong></div>
+        </div>
+        <div style="padding-left:36px;display:flex;flex-direction:column;gap:8px;">
+          <div style="background:var(--bg);border-radius:10px;padding:14px 16px;border-left:3px solid var(--rosa);">
+            <p style="font-size:12px;color:var(--text2);margin:0 0 6px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;">Sugestão de copy</p>
+            <p style="font-size:13px;color:var(--text);line-height:1.65;margin:0;font-style:italic;">"Para mantermos o processo organizado, vamos centralizar os combinados principais por [canal]. Assim evitamos informações perdidas e conseguimos acompanhar cada decisão com clareza."</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="check-item" onclick="toggleCheck(this)" style="flex-direction:column;align-items:flex-start;gap:12px;">
+        <div style="display:flex;align-items:center;gap:14px;width:100%;">
+          <div class="check-box"></div>
+          <div class="check-text"><strong>06 · Alinhar prazos e responsabilidades</strong></div>
+        </div>
+        <div style="padding-left:36px;display:flex;flex-direction:column;gap:8px;">
+          <div style="background:var(--bg);border-radius:10px;padding:14px 16px;border-left:3px solid var(--rosa);">
+            <p style="font-size:12px;color:var(--text2);margin:0 0 6px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;">Sugestão de copy</p>
+            <p style="font-size:13px;color:var(--text);line-height:1.65;margin:0;font-style:italic;">"Durante o projeto, algumas etapas dependem da sua resposta e aprovação. Por isso, vou sinalizar sempre que precisar de algum retorno seu para seguirmos para a próxima fase."</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="section section-gap">
+    <div class="sec-header"><div class="sec-title">Template de Onboarding</div></div>
+    <div style="background:var(--white);border-radius:var(--r-l);border:1px solid var(--border);box-shadow:var(--shadow-s);padding:32px;display:flex;flex-direction:column;gap:16px;" class="fade">
+      <p style="font-size:15px;color:var(--text);line-height:1.65;margin:0;">Use o template pronto para conduzir o onboarding com clareza desde o primeiro contato. Ele já inclui cronograma, estrutura de pastas e mensagens-modelo.</p>
+      <div>
+        <a href="https://drive.google.com" target="_blank" class="btn btn-pink" style="display:inline-block;text-decoration:none;font-size:14px;padding:13px 28px;">✦ &nbsp;Abrir template no Google Drive</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="section section-gap">
+    <div class="cq-item fade" style="border-left:3px solid var(--rosa);background:var(--rosa-bg);">
+      <div class="cq-text">"Um onboarding bem feito já começa a vender valor. Ele mostra que o projeto não é aleatório. Ele cria segurança. Ele educa o cliente. E principalmente: posiciona você como alguém que conduz, não apenas executa."</div>
+      <div class="cq-source">Nara Geovana · Onboarding</div>
+    </div>
+  </div>
+
+  <div class="footer-bar"><div class="footer-logo">Flamma</div><div class="footer-copy">Onboarding do Cliente · Mentoria 2026</div></div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     E03 — PROCESSOS
+════════════════════════════════════════════════════════ -->
+<div id="page-e03" class="class-page">
+  <div class="class-pg-top">
+    <div class="class-pg-meta fade">
+      <span class="pill dark">E03</span>
+      <span class="label">Estratégia de Marca e Direção Criativa</span>
+    </div>
+    <h1 class="class-pg-title fade">Estratégia de Marca<br>&amp; Direção Criativa</h1>
+    <div class="class-pg-frase fade">
+      <p>A etapa onde você transforma informações soltas em leitura estratégica e direção visual.</p>
+    </div>
+  </div>
+
+  <div class="section section-gap">
+    <div class="sec-header"><div class="sec-title">O que é o diagnóstico</div></div>
+    <div style="display:flex;flex-direction:column;gap:14px;" class="fade">
+      <div style="background:var(--white);border-radius:var(--r-l);border:1px solid var(--border);box-shadow:var(--shadow-s);padding:28px 32px;">
+        <p style="font-size:15px;color:var(--text);line-height:1.75;margin:0;">Depois da imersão, você provavelmente terá muitas respostas, referências e percepções. O diagnóstico serve para <strong>organizar tudo isso</strong>.</p>
+      </div>
+      <div style="background:var(--white);border-radius:var(--r-l);border:1px solid var(--border);box-shadow:var(--shadow-s);padding:28px 32px;">
+        <p style="font-size:15px;color:var(--text);line-height:1.75;margin:0;">Aqui você identifica o que está claro, o que está confuso, quais problemas precisam ser resolvidos e quais oportunidades podem ser exploradas na construção da marca.</p>
+      </div>
+      <div style="background:var(--rosa-bg);border-radius:var(--r-l);border:1px solid var(--rosa-bdr);padding:28px 32px;">
+        <p style="font-size:15px;color:var(--text);line-height:1.75;margin:0;">É nessa etapa que você começa a mostrar para o cliente que identidade visual não é decoração. <strong>É resposta estratégica.</strong></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section section-gap">
+    <div class="sec-header"><div class="sec-title">O que analisar no diagnóstico</div></div>
+    <div style="display:flex;flex-direction:column;gap:16px;">
+
+      <!-- Bloco 01 -->
+      <div class="bloco-imersao fade">
+        <div class="bloco-header">
+          <div class="bloco-num">01</div>
+          <div class="bloco-titulo">Momento atual da marca</div>
+        </div>
+        <div class="bloco-body">
+          <p style="font-size:13px;color:var(--text2);line-height:1.6;margin:0;font-weight:500;">Perguntas internas para você responder:</p>
+          <div class="bloco-perguntas">
+            <div class="bloco-q">Em que fase essa marca está?</div>
+            <div class="bloco-q">Ela está começando, amadurecendo, reposicionando ou tentando subir percepção de valor?</div>
+            <div class="bloco-q">O que está travando o crescimento?</div>
+            <div class="bloco-q">O que está desalinhado entre negócio, comunicação e visual?</div>
+          </div>
+          <div class="bloco-provocacao">
+            <div class="bloco-provocacao-label">Copy para apresentar ao cliente</div>
+            <div class="bloco-provocacao-text">"Hoje, a marca está em um momento de [descrever fase]. O principal desafio não é apenas visual, mas de percepção: a marca precisa comunicar com mais clareza quem é, para quem existe e por que deveria ser escolhida."</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bloco 02 -->
+      <div class="bloco-imersao fade">
+        <div class="bloco-header">
+          <div class="bloco-num">02</div>
+          <div class="bloco-titulo">Problema central</div>
+        </div>
+        <div class="bloco-body">
+          <p style="font-size:13px;color:var(--text2);line-height:1.6;margin:0;font-weight:500;">Perguntas internas:</p>
+          <div class="bloco-perguntas">
+            <div class="bloco-q">Qual é o maior problema de marca?</div>
+            <div class="bloco-q">Falta clareza?</div>
+            <div class="bloco-q">Falta diferenciação?</div>
+            <div class="bloco-q">Falta consistência?</div>
+            <div class="bloco-q">Falta valor percebido?</div>
+            <div class="bloco-q">Falta conexão com o público certo?</div>
+          </div>
+          <div class="bloco-provocacao">
+            <div class="bloco-provocacao-label">Copy para apresentar ao cliente</div>
+            <div class="bloco-provocacao-text">"O principal problema identificado é que a marca ainda não traduz visualmente e verbalmente a percepção que deseja construir. Isso faz com que o público não compreenda com rapidez o valor, o diferencial e a personalidade do negócio."</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bloco 03 -->
+      <div class="bloco-imersao fade">
+        <div class="bloco-header">
+          <div class="bloco-num">03</div>
+          <div class="bloco-titulo">Oportunidade estratégica</div>
+        </div>
+        <div class="bloco-body">
+          <p style="font-size:13px;color:var(--text2);line-height:1.6;margin:0;font-weight:500;">Perguntas internas:</p>
+          <div class="bloco-perguntas">
+            <div class="bloco-q">Que espaço a marca pode ocupar?</div>
+            <div class="bloco-q">Que linguagem o mercado ainda não está usando?</div>
+            <div class="bloco-q">Que território visual ou verbal pode gerar diferenciação?</div>
+            <div class="bloco-q">Que percepção precisamos construir?</div>
+          </div>
+          <div class="bloco-provocacao">
+            <div class="bloco-provocacao-label">Copy para apresentar ao cliente</div>
+            <div class="bloco-provocacao-text">"A oportunidade está em posicionar a marca de forma mais [atributo], [atributo] e [atributo], criando uma presença mais coerente com o público que ela deseja atrair e com o valor que pretende cobrar."</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bloco 04 -->
+      <div class="bloco-imersao fade">
+        <div class="bloco-header">
+          <div class="bloco-num">04</div>
+          <div class="bloco-titulo">Direcionamento inicial</div>
+        </div>
+        <div class="bloco-body">
+          <div class="bloco-provocacao">
+            <div class="bloco-provocacao-label">Copy para apresentar ao cliente</div>
+            <div class="bloco-provocacao-text">"A partir do diagnóstico, a recomendação é construir uma identidade que não apenas organize a estética da marca, mas que traduza seu posicionamento, aumente sua percepção de valor e crie mais reconhecimento no contato com o público."</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="section section-gap">
+    <div style="background:var(--rosa-bg);border-radius:var(--r-l);border:1px solid var(--rosa-bdr);padding:28px 32px;display:flex;flex-direction:column;gap:12px;" class="fade">
+      <div style="font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--rosa);">Dica</div>
+      <p style="font-size:15px;color:var(--text);line-height:1.75;margin:0;">Use o template de estratégia de marca no Figma — o sumário é o seu guia para montar as telas. Cada cliente tem uma especificação, não se sinta obrigado a usar todas as seções.</p>
+      <p style="font-size:14px;color:var(--text2);line-height:1.7;margin:0;">Empresa pequena → entregue algo mais enxuto e prático para o dia a dia do empreendedor. Empresa robusta → entregue uma estratégia de negócio à altura.</p>
+    </div>
+  </div>
+
+  <div class="section section-gap">
+    <div class="sec-header"><div class="sec-title">Template de estratégia</div></div>
+    <div style="background:var(--white);border-radius:var(--r-l);border:1px solid var(--border);box-shadow:var(--shadow-s);padding:32px;display:flex;flex-direction:column;gap:16px;" class="fade">
+      <p style="font-size:15px;color:var(--text);line-height:1.65;margin:0;">Acesse o template no Figma para montar a apresentação de estratégia de marca com sua própria leitura do projeto.</p>
+      <div>
+        <a href="https://figma.com" target="_blank" class="btn btn-pink" style="display:inline-block;text-decoration:none;font-size:14px;padding:13px 28px;">✦ &nbsp;Abrir template no Figma</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="section section-gap">
+    <div class="cq-item fade" style="border-left:3px solid var(--rosa);background:var(--rosa-bg);">
+      <div class="cq-text">"O diagnóstico é onde você deixa de responder ao gosto do cliente e começa a responder ao problema da marca. É aqui que o projeto ganha argumento. E projeto com argumento tem mais valor."</div>
+      <div class="cq-source">Nara Geovana · E03</div>
+    </div>
+  </div>
+
+  <div class="footer-bar"><div class="footer-logo">Flamma</div><div class="footer-copy">E03 · Estratégia de Marca &amp; Direção Criativa · Mentoria 2026</div></div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     E04 — DIREÇÃO CRIATIVA
+════════════════════════════════════════════════════════ -->
+<div id="page-e04" class="class-page">
+  <div class="class-pg-top">
+    <div class="class-pg-meta fade">
+      <span class="pill dark">E04</span>
+      <span class="label">Direção Criativa</span>
+    </div>
+    <h1 class="class-pg-title fade">Direção<br>Criativa</h1>
+    <div class="class-pg-frase fade">
+      <p>Como treinar seu olhar antes de criar.</p>
+    </div>
+  </div>
+
+  <div class="section section-gap">
+    <div class="sec-header"><div class="sec-title">Olhar com intenção</div></div>
+    <div style="display:flex;flex-direction:column;gap:14px;" class="fade">
+      <div style="background:var(--white);border-radius:var(--r-l);border:1px solid var(--border);box-shadow:var(--shadow-s);padding:28px 32px;">
+        <p style="font-size:15px;color:var(--text);line-height:1.75;margin:0;">Direção criativa não nasce só na frente do computador. Ela nasce quando você observa a vida com mais intenção: o jeito que uma mesa de restaurante é montada, a luz de um filme, a textura de uma embalagem, o comportamento das pessoas em uma loja, o cardápio de um café, a fachada de um mercado de bairro, a trilha sonora de uma cena.</p>
+      </div>
+      <div style="background:var(--white);border-radius:var(--r-l);border:1px solid var(--border);box-shadow:var(--shadow-s);padding:28px 32px;">
+        <p style="font-size:15px;color:var(--text);line-height:1.75;margin:0;">Tudo pode virar referência. Mas só vira repertório quando você sabe observar.</p>
+      </div>
+      <div style="background:var(--rosa-bg);border-radius:var(--r-l);border:1px solid var(--rosa-bdr);padding:28px 32px;display:flex;flex-direction:column;gap:10px;">
+        <p style="font-size:15px;color:var(--text);line-height:1.75;margin:0;">A pergunta não é só: <em>"Que estética combina com essa marca?"</em></p>
+        <p style="font-size:15px;color:var(--text);line-height:1.75;margin:0;font-weight:600;">A pergunta é: "Que mundo essa marca quer construir?"</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section section-gap">
+    <div class="sec-header"><div class="sec-title">5 formas de treinar o olhar</div></div>
+    <div style="display:flex;flex-direction:column;gap:16px;">
+
+      <div class="bloco-imersao fade">
+        <div class="bloco-header">
+          <div class="bloco-num">01</div>
+          <div class="bloco-titulo">Assista filmes como diretor criativo</div>
+        </div>
+        <div class="bloco-body">
+          <p style="font-size:13px;color:var(--text2);line-height:1.6;margin:0;">Cinema é uma aula absurda de atmosfera. Quando assistir um filme, observe:</p>
+          <div style="display:flex;flex-wrap:wrap;gap:8px;">
+            <span style="background:var(--bg2);border-radius:20px;padding:5px 12px;font-size:12px;color:var(--text2);">paleta de cores</span>
+            <span style="background:var(--bg2);border-radius:20px;padding:5px 12px;font-size:12px;color:var(--text2);">iluminação</span>
+            <span style="background:var(--bg2);border-radius:20px;padding:5px 12px;font-size:12px;color:var(--text2);">figurino</span>
+            <span style="background:var(--bg2);border-radius:20px;padding:5px 12px;font-size:12px;color:var(--text2);">cenários</span>
+            <span style="background:var(--bg2);border-radius:20px;padding:5px 12px;font-size:12px;color:var(--text2);">ritmo</span>
+            <span style="background:var(--bg2);border-radius:20px;padding:5px 12px;font-size:12px;color:var(--text2);">enquadramentos</span>
+            <span style="background:var(--bg2);border-radius:20px;padding:5px 12px;font-size:12px;color:var(--text2);">textura visual</span>
+            <span style="background:var(--bg2);border-radius:20px;padding:5px 12px;font-size:12px;color:var(--text2);">trilha sonora</span>
+            <span style="background:var(--bg2);border-radius:20px;padding:5px 12px;font-size:12px;color:var(--text2);">comportamento dos personagens</span>
+          </div>
+          <div class="bloco-dica">
+            <div class="bloco-dica-label">Perguntas para treinar o olhar</div>
+            <div class="bloco-dica-text">Que sensação esse filme transmite? Como a cor ajuda a contar essa história? Que tipo de marca poderia viver dentro desse universo? Esse filme parece mais sofisticado, caótico, sensível, urbano, artesanal, nostálgico, futurista?</div>
+          </div>
+          <div class="bloco-provocacao">
+            <div class="bloco-provocacao-label">Dica prática</div>
+            <div class="bloco-provocacao-text">Crie uma pasta "Referências cinematográficas" e salve cenas, frames e atmosferas. Não salve só porque é bonito. Salve porque comunica algo.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bloco-imersao fade">
+        <div class="bloco-header">
+          <div class="bloco-num">02</div>
+          <div class="bloco-titulo">Vá a restaurantes, cafés e lojas com outro olhar</div>
+        </div>
+        <div class="bloco-body">
+          <p style="font-size:13px;color:var(--text2);line-height:1.6;margin:0;">Uma ida a um restaurante pode ensinar mais sobre marca do que três horas no Pinterest. Observe:</p>
+          <div style="display:flex;flex-wrap:wrap;gap:8px;">
+            <span style="background:var(--bg2);border-radius:20px;padding:5px 12px;font-size:12px;color:var(--text2);">fachada</span>
+            <span style="background:var(--bg2);border-radius:20px;padding:5px 12px;font-size:12px;color:var(--text2);">cardápio</span>
+            <span style="background:var(--bg2);border-radius:20px;padding:5px 12px;font-size:12px;color:var(--text2);">uniforme</span>
+            <span style="background:var(--bg2);border-radius:20px;padding:5px 12px;font-size:12px;color:var(--text2);">música</span>
+            <span style="background:var(--bg2);border-radius:20px;padding:5px 12px;font-size:12px;color:var(--text2);">iluminação</span>
+            <span style="background:var(--bg2);border-radius:20px;padding:5px 12px;font-size:12px;color:var(--text2);">textura dos materiais</span>
+            <span style="background:var(--bg2);border-radius:20px;padding:5px 12px;font-size:12px;color:var(--text2);">escolha dos móveis</span>
+            <span style="background:var(--bg2);border-radius:20px;padding:5px 12px;font-size:12px;color:var(--text2);">embalagem</span>
+            <span style="background:var(--bg2);border-radius:20px;padding:5px 12px;font-size:12px;color:var(--text2);">linguagem verbal</span>
+            <span style="background:var(--bg2);border-radius:20px;padding:5px 12px;font-size:12px;color:var(--text2);">tipo de público</span>
+          </div>
+          <div class="bloco-dica">
+            <div class="bloco-dica-label">Perguntas para observar</div>
+            <div class="bloco-dica-text">Esse lugar parece caro antes mesmo de eu ver o preço? Por quê? O que faz essa experiência parecer popular, premium, artesanal, jovem, clássica ou experimental? O que está sendo comunicado sem ninguém dizer uma palavra?</div>
+          </div>
+          <div class="bloco-provocacao">
+            <div class="bloco-provocacao-label">Dica prática</div>
+            <div class="bloco-provocacao-text">Tire fotos de detalhes: cardápio, textura da parede, placa do banheiro, embalagem, luz, composição da mesa. O detalhe quase sempre entrega a estratégia.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bloco-imersao fade">
+        <div class="bloco-header">
+          <div class="bloco-num">03</div>
+          <div class="bloco-titulo">Mergulhe na cultura do projeto</div>
+        </div>
+        <div class="bloco-body">
+          <p style="font-size:13px;color:var(--text2);line-height:1.6;margin:0;">Se o projeto tem um estilo específico, você precisa se aproximar desse universo. Não adianta fazer uma marca para um restaurante japonês olhando só "logo japonês no Pinterest". Isso é raso. E o raso cobra barato.</p>
+          <div class="bloco-dica">
+            <div class="bloco-dica-label">Exemplos</div>
+            <div class="bloco-dica-text">
+              <strong>Marca de moda praia</strong> → observe praia, lifestyle, revistas antigas, editoriais, comportamento de consumo.<br><br>
+              <strong>Cafeteria</strong> → vá a cafeterias, observe embalagens, baristas, cerâmicas, arquitetura, rituais.<br><br>
+              <strong>Marca de luxo</strong> → estude silêncio, espaço vazio, materiais nobres, atendimento, gestos, experiência e tempo.<br><br>
+              <strong>Marca popular</strong> → observe rua, supermercado, feira, linguagem direta, humor, cor, volume e praticidade.
+            </div>
+          </div>
+          <div class="bloco-provocacao">
+            <div class="bloco-provocacao-label">Pergunta-chave</div>
+            <div class="bloco-provocacao-text">"Quais códigos esse universo já usa — e quais deles a marca pode tensionar para parecer mais original?"</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bloco-imersao fade">
+        <div class="bloco-header">
+          <div class="bloco-num">04</div>
+          <div class="bloco-titulo">Observe a vida real</div>
+        </div>
+        <div class="bloco-body">
+          <p style="font-size:13px;color:var(--text2);line-height:1.6;margin:0;">A vida real é um banco de referências infinito. Uma ida ao supermercado pode mudar tudo. Observe:</p>
+          <div style="display:flex;flex-wrap:wrap;gap:8px;">
+            <span style="background:var(--bg2);border-radius:20px;padding:5px 12px;font-size:12px;color:var(--text2);">gôndolas</span>
+            <span style="background:var(--bg2);border-radius:20px;padding:5px 12px;font-size:12px;color:var(--text2);">embalagens</span>
+            <span style="background:var(--bg2);border-radius:20px;padding:5px 12px;font-size:12px;color:var(--text2);">hierarquia de informação</span>
+            <span style="background:var(--bg2);border-radius:20px;padding:5px 12px;font-size:12px;color:var(--text2);">cores por categoria</span>
+            <span style="background:var(--bg2);border-radius:20px;padding:5px 12px;font-size:12px;color:var(--text2);">linguagem de venda</span>
+            <span style="background:var(--bg2);border-radius:20px;padding:5px 12px;font-size:12px;color:var(--text2);">comportamento de compra</span>
+          </div>
+          <div class="bloco-dica">
+            <div class="bloco-dica-label">Perguntas para treinar</div>
+            <div class="bloco-dica-text">Qual embalagem eu peguei primeiro? Por quê? Qual marca parece mais confiável? Qual parece mais desejável? O que mudou minha percepção: cor, nome, material, fotografia, tipografia, espaço vazio?</div>
+          </div>
+          <div class="bloco-provocacao">
+            <div class="bloco-provocacao-label">Conclusão</div>
+            <div class="bloco-provocacao-text">Isso é direção criativa na vida real.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bloco-imersao fade">
+        <div class="bloco-header">
+          <div class="bloco-num">05</div>
+          <div class="bloco-titulo">Crie um diário de repertório</div>
+        </div>
+        <div class="bloco-body">
+          <p style="font-size:13px;color:var(--text2);line-height:1.6;margin:0;">Crie um diário visual para registrar tudo que chama sua atenção. Pode ser no Notion, Milanote, Pinterest, Figma, celular ou caderno mesmo.</p>
+          <div style="display:flex;flex-wrap:wrap;gap:8px;">
+            <span style="background:var(--bg2);border-radius:20px;padding:5px 12px;font-size:12px;color:var(--text2);">cores</span>
+            <span style="background:var(--bg2);border-radius:20px;padding:5px 12px;font-size:12px;color:var(--text2);">tipografias</span>
+            <span style="background:var(--bg2);border-radius:20px;padding:5px 12px;font-size:12px;color:var(--text2);">fotografia</span>
+            <span style="background:var(--bg2);border-radius:20px;padding:5px 12px;font-size:12px;color:var(--text2);">símbolos</span>
+            <span style="background:var(--bg2);border-radius:20px;padding:5px 12px;font-size:12px;color:var(--text2);">texturas</span>
+            <span style="background:var(--bg2);border-radius:20px;padding:5px 12px;font-size:12px;color:var(--text2);">interiores</span>
+            <span style="background:var(--bg2);border-radius:20px;padding:5px 12px;font-size:12px;color:var(--text2);">embalagens</span>
+            <span style="background:var(--bg2);border-radius:20px;padding:5px 12px;font-size:12px;color:var(--text2);">frases</span>
+            <span style="background:var(--bg2);border-radius:20px;padding:5px 12px;font-size:12px;color:var(--text2);">atmosferas</span>
+            <span style="background:var(--bg2);border-radius:20px;padding:5px 12px;font-size:12px;color:var(--text2);">cenas de filmes</span>
+            <span style="background:var(--bg2);border-radius:20px;padding:5px 12px;font-size:12px;color:var(--text2);">campanhas</span>
+            <span style="background:var(--bg2);border-radius:20px;padding:5px 12px;font-size:12px;color:var(--text2);">gestos</span>
+          </div>
+          <div class="bloco-dica">
+            <div class="bloco-dica-label">O pulo do gato</div>
+            <div class="bloco-dica-text">Não salve só a imagem. <strong>Escreva o motivo.</strong><br><br>
+            Exemplo: <em>Referência: fachada de uma padaria antiga. Por que salvei: mistura de nostalgia, simplicidade, confiança e bairro. Poderia inspirar uma marca afetiva, local e artesanal.</em><br><br>
+            Esse comentário é o que transforma imagem em repertório.</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="section section-gap">
+    <div class="sec-header"><div class="sec-title">Material da aula</div></div>
+    <div style="background:var(--white);border-radius:var(--r-l);border:1px solid var(--border);box-shadow:var(--shadow-s);padding:32px;display:flex;flex-direction:column;gap:16px;" class="fade">
+      <p style="font-size:15px;color:var(--text);line-height:1.65;margin:0;">Acesse o material completo da aula de Direção Criativa no Google Drive.</p>
+      <div>
+        <a href="https://drive.google.com/drive/folders/1Za5fuE-TBXfr3g8shsUX2QumyUlYX6jd?usp=drive_link" target="_blank" class="btn btn-pink" style="display:inline-block;text-decoration:none;font-size:14px;padding:13px 28px;">✦ &nbsp;Abrir material no Drive</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="section section-gap">
+    <div class="sec-header"><div class="sec-title">Links úteis</div></div>
+    <div class="bento" style="grid-template-columns:repeat(auto-fill,minmax(180px,1fr));" class="fade">
+      <a href="https://pinterest.com" target="_blank" class="bento-card fade" style="text-decoration:none;">
+        <div class="ins-cat">Pinterest</div>
+        <div class="ins-q" style="font-size:13px;">Referências visuais e moodboards</div>
+      </a>
+      <a href="https://behance.net" target="_blank" class="bento-card fade" style="text-decoration:none;">
+        <div class="ins-cat">Behance</div>
+        <div class="ins-q" style="font-size:13px;">Portfólios e projetos criativos</div>
+      </a>
+      <a href="https://design-milk.com" target="_blank" class="bento-card fade" style="text-decoration:none;">
+        <div class="ins-cat">Design Milk</div>
+        <div class="ins-q" style="font-size:13px;">Design, arquitetura e lifestyle</div>
+      </a>
+      <a href="https://itsnicethat.com" target="_blank" class="bento-card fade" style="text-decoration:none;">
+        <div class="ins-cat">It's Nice That</div>
+        <div class="ins-q" style="font-size:13px;">Arte, design e ilustração contemporâneos</div>
+      </a>
+      <a href="https://awwwards.com" target="_blank" class="bento-card fade" style="text-decoration:none;">
+        <div class="ins-cat">Awwwards</div>
+        <div class="ins-q" style="font-size:13px;">Web design de referência</div>
+      </a>
+      <a href="https://thedieline.com" target="_blank" class="bento-card fade" style="text-decoration:none;">
+        <div class="ins-cat">The Dieline</div>
+        <div class="ins-q" style="font-size:13px;">Embalagens e packaging design</div>
+      </a>
+      <a href="https://underconsideration.com/brandnew" target="_blank" class="bento-card fade" style="text-decoration:none;">
+        <div class="ins-cat">Brand New</div>
+        <div class="ins-q" style="font-size:13px;">Análise de identidades visuais</div>
+      </a>
+      <a href="https://fontsinuse.com" target="_blank" class="bento-card fade" style="text-decoration:none;">
+        <div class="ins-cat">Fonts In Use</div>
+        <div class="ins-q" style="font-size:13px;">Tipografia aplicada em projetos reais</div>
+      </a>
+    </div>
+  </div>
+
+  <div class="footer-bar"><div class="footer-logo">Flamma</div><div class="footer-copy">E04 · Direção Criativa · Mentoria 2026</div></div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     E05 — IDENTIDADE VISUAL (BLOQUEADO)
+════════════════════════════════════════════════════════ -->
+<div id="page-iv" class="class-page">
+  <div class="locked-pg fade">
+    <div class="locked-icon">🔒</div>
+    <div class="locked-title">E05 · Identidade Visual</div>
+    <div class="locked-sub">Este módulo ainda está sendo preparado.<br>Ele será desbloqueado na sequência da mentoria.</div>
+  </div>
+  <div class="footer-bar"><div class="footer-logo">Flamma</div><div class="footer-copy">E05 · Identidade Visual · Em breve</div></div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     E06 — PROJETO FINAL (BLOQUEADO)
+════════════════════════════════════════════════════════ -->
+<div id="page-projeto" class="class-page">
+  <div class="locked-pg fade">
+    <div class="locked-icon">🔒</div>
+    <div class="locked-title">E06 · Projeto Final</div>
+    <div class="locked-sub">Este módulo ainda está sendo preparado.<br>Ele será desbloqueado quando você chegar aqui.</div>
+  </div>
+  <div class="footer-bar"><div class="footer-logo">Flamma</div><div class="footer-copy">E06 · Projeto Final · Em breve</div></div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     DESCOMPLICANDO BRANDING
+════════════════════════════════════════════════════════ -->
+<div id="page-branding" class="class-page">
+
+  <!-- Timeline styles scoped -->
+  <style>
+    .etapa-card { background:var(--white); border-radius:var(--r-l); border:1px solid var(--border); box-shadow:var(--shadow-s); overflow:hidden; }
+    .etapa-header { padding:20px 28px 18px; display:flex; align-items:center; gap:16px; border-bottom:1px solid var(--border); }
+    .etapa-num { width:36px; height:36px; border-radius:10px; background:var(--text); color:var(--white); font-size:12px; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0; letter-spacing:.02em; }
+    .etapa-header-right { display:flex; flex-direction:column; gap:3px; }
+    .etapa-label { font-size:11px; color:var(--text3); letter-spacing:.05em; text-transform:uppercase; }
+    .etapa-titulo { font-size:16px; font-weight:600; color:var(--text); }
+    .etapa-body { padding:20px 28px 24px; display:flex; flex-direction:column; gap:16px; }
+    .etapa-objetivo { font-size:13px; color:var(--text2); line-height:1.6; }
+    .etapa-lista { display:flex; flex-direction:column; gap:7px; }
+    .etapa-item { display:flex; align-items:flex-start; gap:10px; font-size:14px; color:var(--text); line-height:1.5; }
+    .etapa-item::before { content:''; width:5px; height:5px; border-radius:50%; background:var(--rosa); flex-shrink:0; margin-top:7px; }
+    .etapa-frase { background:var(--rosa-bg); border-radius:10px; padding:14px 18px; border-left:3px solid var(--rosa); font-size:13px; color:var(--text); line-height:1.65; font-style:italic; }
+    .etapa-nota { background:var(--bg); border-radius:10px; padding:14px 18px; font-size:13px; color:var(--text2); line-height:1.65; }
+    .etapa-connector { width:2px; height:20px; background:var(--border); margin:0 auto; }
+  </style>
+
+  <div class="class-pg-top">
+    <div class="class-pg-meta fade">
+      <span class="pill" style="background:var(--rosa-bg);color:var(--text);border:1px solid var(--rosa-bdr);">✦</span>
+      <span class="label">Processo de Marca</span>
+    </div>
+    <h1 class="class-pg-title fade">Processo<br>de Marca</h1>
+    <div class="class-pg-frase fade">
+      <p>O caminho que transforma diagnóstico em construção estratégica e visual.</p>
+    </div>
+  </div>
+
+  <div class="section section-gap">
+    <div class="sec-header"><div class="sec-title">Por que processo importa</div></div>
+    <div style="display:flex;flex-direction:column;gap:14px;" class="fade">
+      <div style="background:var(--white);border-radius:var(--r-l);border:1px solid var(--border);box-shadow:var(--shadow-s);padding:28px 32px;">
+        <p style="font-size:15px;color:var(--text);line-height:1.75;margin:0;">Um projeto premium precisa ter processo. Não basta entregar uma identidade bonita. <strong>O cliente precisa entender como você chegou até ela.</strong></p>
+      </div>
+      <div style="background:var(--white);border-radius:var(--r-l);border:1px solid var(--border);box-shadow:var(--shadow-s);padding:28px 32px;">
+        <p style="font-size:15px;color:var(--text);line-height:1.75;margin:0;">O processo de marca organiza a jornada e mostra que cada etapa tem um papel: entender, diagnosticar, direcionar, criar, validar e entregar.</p>
+      </div>
+      <div style="background:var(--rosa-bg);border-radius:var(--r-l);border:1px solid var(--rosa-bdr);padding:28px 32px;">
+        <p style="font-size:15px;color:var(--text);line-height:1.75;margin:0;">Quando você apresenta o processo com clareza, o cliente sente segurança. <strong>E segurança aumenta valor percebido.</strong></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section section-gap">
+    <div class="sec-header"><div class="sec-title">Estrutura do processo</div></div>
+    <div style="display:flex;flex-direction:column;gap:6px;">
+
+      <div class="etapa-card fade">
+        <div class="etapa-header">
+          <div class="etapa-num">01</div>
+          <div class="etapa-header-right">
+            <div class="etapa-label">Etapa</div>
+            <div class="etapa-titulo">Onboarding</div>
+          </div>
+        </div>
+        <div class="etapa-body">
+          <div class="etapa-objetivo"><strong>Objetivo:</strong> organizar o início do projeto, alinhar expectativas e mostrar o caminho.</div>
+          <div class="etapa-lista">
+            <div class="etapa-item">enviar mensagem de boas-vindas</div>
+            <div class="etapa-item">explicar etapas</div>
+            <div class="etapa-item">enviar cronograma</div>
+            <div class="etapa-item">organizar pasta</div>
+            <div class="etapa-item">enviar briefing</div>
+            <div class="etapa-item">alinhar canais e prazos</div>
+          </div>
+          <div class="etapa-frase">"Antes de criar, a gente organiza. Porque projeto bom não começa no layout, começa na condução."</div>
+        </div>
+      </div>
+
+      <div class="etapa-connector"></div>
+
+      <div class="etapa-card fade">
+        <div class="etapa-header">
+          <div class="etapa-num">02</div>
+          <div class="etapa-header-right">
+            <div class="etapa-label">Etapa</div>
+            <div class="etapa-titulo">Briefing</div>
+          </div>
+        </div>
+        <div class="etapa-body">
+          <div class="etapa-objetivo"><strong>Objetivo:</strong> coletar as primeiras informações sobre marca, negócio, público e objetivos.</div>
+          <div class="etapa-lista">
+            <div class="etapa-item">enviar formulário</div>
+            <div class="etapa-item">revisar respostas</div>
+            <div class="etapa-item">destacar pontos confusos</div>
+            <div class="etapa-item">separar perguntas para aprofundar na call</div>
+          </div>
+          <div class="etapa-frase">"O briefing não é só um formulário. É o primeiro mapa do projeto."</div>
+        </div>
+      </div>
+
+      <div class="etapa-connector"></div>
+
+      <div class="etapa-card fade">
+        <div class="etapa-header">
+          <div class="etapa-num">03</div>
+          <div class="etapa-header-right">
+            <div class="etapa-label">Etapa</div>
+            <div class="etapa-titulo">Imersão</div>
+          </div>
+        </div>
+        <div class="etapa-body">
+          <div class="etapa-objetivo"><strong>Objetivo:</strong> aprofundar contexto, entender nuances e extrair informações estratégicas.</div>
+          <div class="etapa-lista">
+            <div class="etapa-item">conduzir call</div>
+            <div class="etapa-item">investigar ponto A e ponto B</div>
+            <div class="etapa-item">entender dores, desejos e diferenciais</div>
+            <div class="etapa-item">mapear público, concorrência e essência</div>
+          </div>
+          <div class="etapa-frase">"A imersão é onde a marca começa a revelar o que ainda não estava organizado."</div>
+        </div>
+      </div>
+
+      <div class="etapa-connector"></div>
+
+      <div class="etapa-card fade">
+        <div class="etapa-header">
+          <div class="etapa-num">04</div>
+          <div class="etapa-header-right">
+            <div class="etapa-label">Etapa</div>
+            <div class="etapa-titulo">Diagnóstico</div>
+          </div>
+        </div>
+        <div class="etapa-body">
+          <div class="etapa-objetivo"><strong>Objetivo:</strong> transformar informações em leitura estratégica.</div>
+          <div class="etapa-lista">
+            <div class="etapa-item">organizar insights</div>
+            <div class="etapa-item">identificar problemas centrais</div>
+            <div class="etapa-item">mapear oportunidades</div>
+            <div class="etapa-item">definir direcionamentos</div>
+          </div>
+          <div class="etapa-frase">"Diagnóstico é o que separa criação estratégica de criação no escuro."</div>
+        </div>
+      </div>
+
+      <div class="etapa-connector"></div>
+
+      <div class="etapa-card fade">
+        <div class="etapa-header">
+          <div class="etapa-num">05</div>
+          <div class="etapa-header-right">
+            <div class="etapa-label">Etapa</div>
+            <div class="etapa-titulo">Direção Criativa</div>
+          </div>
+        </div>
+        <div class="etapa-body">
+          <div class="etapa-objetivo"><strong>Objetivo:</strong> definir o caminho conceitual, visual e verbal antes da criação da identidade.</div>
+          <div class="etapa-lista">
+            <div class="etapa-item">criar moodboard</div>
+            <div class="etapa-item">definir atmosfera</div>
+            <div class="etapa-item">selecionar referências</div>
+            <div class="etapa-item">explicar o racional</div>
+            <div class="etapa-item">validar caminho com o cliente</div>
+          </div>
+          <div class="etapa-frase">"Direção criativa é a ponte entre estratégia e estética."</div>
+        </div>
+      </div>
+
+      <div class="etapa-connector"></div>
+
+      <div class="etapa-card fade">
+        <div class="etapa-header">
+          <div class="etapa-num">06</div>
+          <div class="etapa-header-right">
+            <div class="etapa-label">Etapa</div>
+            <div class="etapa-titulo">Identidade Visual</div>
+          </div>
+        </div>
+        <div class="etapa-body">
+          <div class="etapa-objetivo"><strong>Objetivo:</strong> construir o sistema visual da marca com coerência e intenção.</div>
+          <div class="etapa-lista">
+            <div class="etapa-item">criar logo</div>
+            <div class="etapa-item">definir cores</div>
+            <div class="etapa-item">definir tipografia</div>
+            <div class="etapa-item">criar elementos gráficos</div>
+            <div class="etapa-item">aplicar a identidade em pontos de contato</div>
+            <div class="etapa-item">organizar apresentação</div>
+          </div>
+          <div class="etapa-frase">"Identidade visual não é só o símbolo da marca. É o sistema que faz a marca ser reconhecida."</div>
+        </div>
+      </div>
+
+      <div class="etapa-connector"></div>
+
+      <div class="etapa-card fade">
+        <div class="etapa-header">
+          <div class="etapa-num">07</div>
+          <div class="etapa-header-right">
+            <div class="etapa-label">Etapa</div>
+            <div class="etapa-titulo">Apresentação</div>
+          </div>
+        </div>
+        <div class="etapa-body">
+          <div class="etapa-objetivo"><strong>Objetivo:</strong> defender a construção e mostrar o valor estratégico por trás das decisões.</div>
+          <div class="etapa-lista">
+            <div class="etapa-item">apresentar contexto</div>
+            <div class="etapa-item">retomar diagnóstico</div>
+            <div class="etapa-item">explicar conceito</div>
+            <div class="etapa-item">mostrar direção criativa</div>
+            <div class="etapa-item">apresentar identidade</div>
+            <div class="etapa-item">justificar escolhas</div>
+            <div class="etapa-item">mostrar aplicações</div>
+          </div>
+          <div class="etapa-frase">"A forma como você apresenta muda a forma como o cliente percebe o valor do projeto."</div>
+        </div>
+      </div>
+
+      <div class="etapa-connector"></div>
+
+      <div class="etapa-card fade" style="border-color:var(--rosa-bdr);">
+        <div class="etapa-header" style="background:var(--rosa-bg);">
+          <div class="etapa-num" style="background:var(--rosa);color:var(--text);">08</div>
+          <div class="etapa-header-right">
+            <div class="etapa-label">Etapa final</div>
+            <div class="etapa-titulo">Entrega Final</div>
+          </div>
+        </div>
+        <div class="etapa-body">
+          <div class="etapa-objetivo"><strong>Objetivo:</strong> finalizar o projeto com organização, clareza e sensação de fechamento profissional.</div>
+          <div class="etapa-lista">
+            <div class="etapa-item">exportar arquivos</div>
+            <div class="etapa-item">organizar pastas</div>
+            <div class="etapa-item">enviar manual</div>
+            <div class="etapa-item">orientar uso</div>
+            <div class="etapa-item">explicar próximos passos</div>
+            <div class="etapa-item">pedir feedback / depoimento</div>
+          </div>
+          <div class="etapa-frase">"A entrega final não é só envio de arquivo. É o encerramento da experiência."</div>
+          <div class="etapa-nota">Faça uma reunião de fechamento, apresente os arquivos — essa é a oportunidade para entender se o cliente precisa de mais do seu trabalho. Uma recorrência. Faça upsell.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="footer-bar"><div class="footer-logo">Flamma</div><div class="footer-copy">Processo de Marca · Mentoria 2026</div></div>
+</div>
+
+<script>
+  // ── Page switching ──
+  const pages = { home: document.getElementById('page-home'), onboarding: document.getElementById('page-onboarding'), e01: document.getElementById('page-e01'), e03: document.getElementById('page-e03'), e04: document.getElementById('page-e04'), iv: document.getElementById('page-iv'), projeto: document.getElementById('page-projeto'), branding: document.getElementById('page-branding') };
+
+  // ── Checklist toggle ──
+  function toggleCheck(el) {
+    el.classList.toggle('done');
+  }
+
+  function showPage(id) {
+    Object.values(pages).forEach(p => { if (p) p.style.display = 'none'; });
+    if (pages[id]) pages[id].style.display = 'block';
+    document.querySelectorAll('.nav-page-btn').forEach(btn => btn.classList.remove('active'));
+    const activeBtn = document.querySelector(`[data-nav="${id}"]`);
+    if (activeBtn) activeBtn.classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    // Re-trigger fade animations for the new page
+    setTimeout(() => {
+      pages[id].querySelectorAll('.fade:not(.visible)').forEach((el, i) => {
+        setTimeout(() => el.classList.add('visible'), i * 60);
+      });
+    }, 80);
+  }
+
+  // Attach click handlers — any element with data-nav
+  document.querySelectorAll('[data-nav]').forEach(btn => {
+    btn.addEventListener('click', () => showPage(btn.dataset.nav));
+  });
+
+  // Show home by default
+  showPage('home');
+
+  // ── Fade in on scroll (home page) ──
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 50);
+        obs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.06 });
+  document.querySelectorAll('#page-home .fade').forEach(el => obs.observe(el));
+
+  // ── Animate ring on load ──
+  window.addEventListener('load', () => {
+    setTimeout(() => {
+      const fill = document.querySelector('.ring-fill');
+      if (fill) fill.style.strokeDashoffset = '88';
+    }, 400);
+  });
+
+  // ── Smooth anchor scroll (home) ──
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      e.preventDefault();
+      document.querySelector(a.getAttribute('href'))?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+</script>
+</body>
+</html>
